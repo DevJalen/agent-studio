@@ -3588,6 +3588,13 @@ export default function ChatView(props: ChatViewProps) {
             {!rightPanelControlsAtRoot && !rightPanelControlsInPanel ? panelLayoutControls : null}
             {inlineRightPanelOwnsTitleBar ? threadPanelHeaderControl : null}
             <ChatHeader
+              provider={
+                (isWorking
+                  ? providerInstanceEntries.find(
+                      (entry) => entry.instanceId === activeRuntime?.providerInstanceId,
+                    )
+                  : undefined) ?? selectedProviderEntry
+              }
               activeThreadEnvironmentId={activeThread.environmentId}
               activeThreadId={activeThread.id}
               isServerThread={isServerThread}

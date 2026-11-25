@@ -1,3 +1,16 @@
+# Agent Studio
+
+An unofficial personal fork of [T3 Code](https://github.com/pingdotgg/t3code), with a local launcher
+for two separate Claude accounts and Codex, persistent account labels, and isolated app state.
+Not affiliated with, endorsed by, or maintained by T3 Tools. Original MIT license retained.
+
+**[Agent Studio setup and account guide](docs/user/agent-studio.md)**
+
+The upstream documentation below describes the inherited platform. Upstream downloads install
+T3 Code, not this customized fork. Agent Studio currently runs from source.
+
+---
+
 <p align="center">
   <a href="https://t3.codes">
     <img src="./assets/prod/t3-black-web-icon-192x192.png" width="80" height="80" alt="T3 Code logo" />

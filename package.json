@@ -3,6 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "studio": "node scripts/agent-studio.ts",
+    "studio:desktop": "node scripts/agent-studio.ts --desktop",
+    "studio:setup": "node scripts/agent-studio.ts --setup-only",
     "prepare": "vp config --no-agent",
     "dev": "node scripts/dev-runner.ts dev",
     "profile:startup": "node scripts/profile-startup.mjs",

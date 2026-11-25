@@ -45,8 +45,11 @@ import { cn } from "~/lib/utils";
 import { textDirection } from "~/textDirection";
 import { useClientSettings } from "../../hooks/useSettings";
 import { GuestShareIndicator } from "./GuestShareControls";
+import { AccountIdentity } from "./AccountIdentity";
+import type { ProviderInstanceEntry } from "../../providerInstances";
 
 interface ChatHeaderProps {
+  provider?: ProviderInstanceEntry | null | undefined;
   activeThreadEnvironmentId: EnvironmentId;
   activeThreadId: ThreadId;
   activeThreadTitle: string;
@@ -72,6 +75,7 @@ function resolveRenameCommit(input: {
 }
 
 export const ChatHeader = memo(function ChatHeader({
+  provider,
   activeThreadEnvironmentId,
   activeThreadId,
   activeThreadTitle,
@@ -413,6 +417,7 @@ export const ChatHeader = memo(function ChatHeader({
           ) : null}
         </WorkspaceBreadcrumbItem>
       </WorkspaceBreadcrumb>
+      {provider ? <AccountIdentity provider={provider} /> : null}
       {isServerThread ? <GuestShareIndicator threadRef={activeThreadRef} /> : null}
     </div>
   );

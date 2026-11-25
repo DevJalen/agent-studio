@@ -10,6 +10,9 @@ import { Button } from "./ui/button";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "./ui/empty";
 import { SidebarInset } from "./ui/sidebar";
 import { WorkspacePageHeader } from "./WorkspacePageHeader";
+import { Link } from "@tanstack/react-router";
+import { T3Wordmark } from "./T3Wordmark";
+import { APP_BASE_NAME } from "../branding";
 
 export function NoProjectsHero() {
   const gt = useGT();
@@ -30,9 +33,10 @@ export function NoProjectsHero() {
         <Empty size="hero" className="flex-1">
           <div className="w-full max-w-lg px-8 py-12">
             <EmptyHeader className="max-w-none">
-              <EmptyTitle>
-                <T>What should we work on?</T>
-              </EmptyTitle>
+              <div className="mx-auto mb-4 w-20">
+                <T3Wordmark aria-hidden="true" />
+              </div>
+              <EmptyTitle>{APP_BASE_NAME}</EmptyTitle>
               <EmptyDescription>
                 {scratchTargetEnvironmentId === null
                   ? gt("Add a project to start your first thread.")
@@ -54,6 +58,17 @@ export function NoProjectsHero() {
                   </Button>
                 )}
               </div>
+              <div className="mt-5 text-sm">
+                <Link
+                  to="/settings/providers"
+                  className="text-foreground underline underline-offset-4"
+                >
+                  <T>Providers</T>
+                </Link>
+              </div>
+              <p className="mt-8 text-xs text-muted-foreground">
+                <T>Unofficial fork based on T3 Code. Not affiliated with T3 Tools.</T>
+              </p>
             </EmptyHeader>
           </div>
         </Empty>
