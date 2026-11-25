@@ -5,6 +5,17 @@ It is not affiliated with, endorsed by, or maintained by T3 Tools. The upstream 
 
 ## Start locally
 
+If the Windows shortcut is installed, open **Agent Studio** from your Desktop or Start menu.
+It opens the built desktop app without a terminal or menu. Right-click its running taskbar icon
+and choose **Pin to taskbar** for one-click access. Reopening it brings up the existing app.
+Close the browser development launcher before opening the desktop app; they share the same chats.
+
+To install these shortcuts from a source checkout, first build with `vp run build:desktop`, then
+run `powershell -File windows/install-shortcut.ps1` from a terminal with Vite+ and PowerShell 7
+available. The local launcher stays beside the checkout in `.agent-studio-launcher`. Keep the
+checkout and its dependencies there; the shortcut is not a portable installer. Rebuild after
+updating the source. Account sign-in remains available from `Start-Agent-Studio.cmd`.
+
 Install the Vite+ version listed in `pnpm-workspace.yaml`, then run:
 
 ```sh

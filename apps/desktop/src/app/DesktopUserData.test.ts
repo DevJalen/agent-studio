@@ -7,7 +7,7 @@ import * as PlatformError from "effect/PlatformError";
 
 import { clearStaleGpuCaches, resolveUserDataPath } from "./DesktopUserData.ts";
 
-it.effect.each(["t3code", "T3 Code (Alpha)"])(
+it.effect.each(["agent-studio", "Agent Studio (Alpha)"])(
   "preserves Windows credential keys from %s without copying browser databases",
   (sourceName) =>
     Effect.gen(function* () {
@@ -15,9 +15,9 @@ it.effect.each(["t3code", "T3 Code (Alpha)"])(
       const path = yield* Path.Path;
       const directory = yield* fs.makeTempDirectoryScoped({ prefix: "t3-v2-profile-" });
       const source = path.join(directory, sourceName);
-      const destination = path.join(directory, "t3code-v2");
+      const destination = path.join(directory, "agent-studio-v2");
       const state = '{"os_crypt":{"encrypted_key":"test-encrypted-key"}}';
-      yield* fs.makeDirectory(path.join(directory, "T3 Code (Alpha)"), { recursive: true });
+      yield* fs.makeDirectory(path.join(directory, "Agent Studio (Alpha)"), { recursive: true });
       yield* fs.makeDirectory(path.join(source, "IndexedDB"), { recursive: true });
       yield* fs.writeFileString(path.join(source, "Local State"), state);
       yield* fs.writeFileString(path.join(source, "IndexedDB", "LOCK"), "V1 owns this database");
@@ -50,6 +50,34 @@ const gpuCacheDirectories = [
   "DawnWebGPUCache",
   "GPUPersistentCache",
 ];
+
+it.effect("keeps Agent Studio separate from upstream T3 browser profiles", () =>
+  Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+    const path = yield* Path.Path;
+    const directory = yield* fs.makeTempDirectoryScoped({ prefix: "agent-studio-profile-" });
+    for (const name of ["t3code", "t3code-v2", "T3 Code (Alpha)", "T3 Code (Dev)"]) {
+      yield* fs.makeDirectory(path.join(directory, name), { recursive: true });
+      yield* fs.writeFileString(path.join(directory, name, "Local State"), "upstream credentials");
+    }
+    for (const isDevelopment of [false, true]) {
+      const destination = yield* resolveUserDataPath({
+        appDataDirectory: directory,
+        isDevelopment,
+        platform: "win32",
+      });
+      assert.equal(
+        destination,
+        path.join(directory, isDevelopment ? "agent-studio-dev" : "agent-studio-v2"),
+      );
+      assert.isFalse(yield* fs.exists(path.join(destination, "Local State")));
+    }
+    assert.equal(
+      yield* fs.readFileString(path.join(directory, "t3code-v2", "Local State")),
+      "upstream credentials",
+    );
+  }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+);
 
 it.effect.each([
   { profile: "written by Electron 44.10.0", marker: "44.10.0" },
@@ -98,7 +126,7 @@ it.effect("keeps GPU caches built on the first launch of a fresh install", () =>
     const fs = yield* FileSystem.FileSystem;
     const path = yield* Path.Path;
     const appData = yield* fs.makeTempDirectoryScoped({ prefix: "t3-v2-fresh-" });
-    const userDataPath = path.join(appData, "t3code-v2");
+    const userDataPath = path.join(appData, "agent-studio-v2");
 
     yield* clearStaleGpuCaches({ userDataPath, electronVersion: "44.10.1" });
     yield* fs.makeDirectory(path.join(userDataPath, "GPUCache"));

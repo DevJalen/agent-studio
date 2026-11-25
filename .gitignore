@@ -29,6 +29,7 @@ squashfs-root/
 .plans/
 /audits/
 dist-electron/
+dist-agent-studio/
 .electron-runtime/
 .showcase/
 apps/mobile/.showcase/
