@@ -4211,6 +4211,7 @@ export default function ChatView(props: ChatViewProps) {
                         <ChatImageShelf
                           key={activeThreadKey}
                           messages={timelineMessages}
+                          turnItems={serverTimelineRows}
                           threadRef={activeThreadRef}
                           cwd={gitCwd ?? undefined}
                           onImageExpand={onExpandTimelineImageStable}

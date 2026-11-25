@@ -1,4 +1,4 @@
-import type { ScopedThreadRef } from "@t3tools/contracts";
+import type { OrchestrationV2ProjectedTurnItem, ScopedThreadRef } from "@t3tools/contracts";
 import { useGT } from "gt-react";
 import { ImageIcon } from "lucide-react";
 import { useState } from "react";
@@ -8,19 +8,28 @@ import { agentGalleryImages } from "./ChatImageShelf.logic";
 import ChatMarkdown from "../ChatMarkdown";
 import { AttachmentImage } from "../media/AttachmentImage";
 import { Button } from "../ui/button";
-import { markdownImageCopy } from "./ChatMarkdownMedia";
+import { ChatMarkdownAssetImage, markdownImageCopy } from "./ChatMarkdownMedia";
 import type { ExpandedImagePreview } from "./ExpandedImagePreview";
+import { useGalleryToolItems } from "./useGalleryToolItems";
 
 interface ImageShelfProps {
   messages: readonly ChatMessage[];
+  turnItems: readonly OrchestrationV2ProjectedTurnItem[];
   threadRef: ScopedThreadRef;
   cwd: string | undefined;
   onImageExpand: (preview: ExpandedImagePreview) => void;
 }
 
-function ImageShelfContents({ messages, threadRef, cwd, onImageExpand }: ImageShelfProps) {
+function ImageShelfContents({
+  images,
+  threadRef,
+  cwd,
+  onImageExpand,
+}: ImageShelfProps & {
+  images: ReturnType<typeof agentGalleryImages>;
+}) {
   const gt = useGT();
-  const { attachments, sources } = agentGalleryImages(messages);
+  const { attachments, sources, toolImages } = images;
   const urls = useAssetUrls(
     threadRef.environmentId,
     attachments.map((image) => ({
@@ -60,15 +69,30 @@ function ImageShelfContents({ messages, threadRef, cwd, onImageExpand }: ImageSh
             )}
           </button>
         ))}
+        {sources.map((source) => (
+          <div
+            key={source}
+            className="min-w-0 overflow-hidden rounded-lg [&_img]:max-h-32 [&_img]:object-contain"
+          >
+            <ChatMarkdown
+              text={markdownImageCopy("", source, undefined)}
+              cwd={cwd}
+              threadRef={threadRef}
+              onImageExpand={onImageExpand}
+            />
+          </div>
+        ))}
+        {toolImages.map((resource) => (
+          <ChatMarkdownAssetImage
+            key={`${resource.threadId}:${resource.itemId}:${resource.index}`}
+            environmentId={threadRef.environmentId}
+            resource={resource}
+            alt={gt("Tool output image")}
+            maxHeightRem={8}
+            onImageExpand={onImageExpand}
+          />
+        ))}
       </div>
-      {sources.length > 0 ? (
-        <ChatMarkdown
-          text={sources.map((source) => markdownImageCopy("", source, undefined)).join("\n\n")}
-          cwd={cwd}
-          threadRef={threadRef}
-          onImageExpand={onImageExpand}
-        />
-      ) : null}
     </div>
   );
 }
@@ -76,8 +100,9 @@ function ImageShelfContents({ messages, threadRef, cwd, onImageExpand }: ImageSh
 export function ChatImageShelf(props: ImageShelfProps) {
   const gt = useGT();
   const [open, setOpen] = useState(true);
-  const { attachments, sources } = agentGalleryImages(props.messages);
-  const count = attachments.length + sources.length;
+  const toolItems = useGalleryToolItems(props.turnItems, props.threadRef.environmentId);
+  const images = agentGalleryImages(props.messages, toolItems);
+  const count = images.attachments.length + images.sources.length + images.toolImages.length;
   if (count === 0) return null;
   return (
     <section data-image-shelf className="border-t border-border/60">
@@ -87,7 +112,7 @@ export function ChatImageShelf(props: ImageShelfProps) {
           {gt("Chat images")} <span className="text-muted-foreground tabular-nums">{count}</span>
         </Button>
       </div>
-      {open ? <ImageShelfContents {...props} /> : null}
+      {open ? <ImageShelfContents {...props} images={images} /> : null}
     </section>
   );
 }
