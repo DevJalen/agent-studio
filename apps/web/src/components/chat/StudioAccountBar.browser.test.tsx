@@ -115,14 +115,15 @@ it("offers the reported Fable reset and redeems only the chosen account and cred
       activeInstanceId="Second"
     />,
   );
-  await expect.element(screen.getByText("Fable reset · 1 left")).toBeVisible();
+  await screen.getByRole("button", { name: /Usage details.*Use reset/ }).click();
+  await expect.element(page.getByText("Fable reset · 1 left")).toBeVisible();
   expect(commands.redeem).not.toHaveBeenCalled();
-  await screen.getByRole("button", { name: "Use", exact: true }).click();
+  await page.getByRole("button", { name: "Use", exact: true }).click();
   await expect.element(page.getByRole("alertdialog")).toBeVisible();
   expect(commands.redeem).not.toHaveBeenCalled();
   await page.getByRole("button", { name: "Cancel", exact: true }).click();
   expect(commands.redeem).not.toHaveBeenCalled();
-  await screen.getByRole("button", { name: "Use", exact: true }).click();
+  await page.getByRole("button", { name: "Use", exact: true }).click();
   await page.getByRole("button", { name: "Use credit", exact: true }).click();
   expect(commands.redeem).toHaveBeenCalledExactlyOnceWith({
     environmentId: "test",

@@ -15,7 +15,6 @@ import {
 import { primaryServerKeybindingsAtom } from "../../state/server";
 import { cn } from "../../lib/utils";
 import { useIssuesSupported, usePullRequestsSupported } from "../../state/environments";
-import { T3Wordmark } from "../T3Wordmark";
 import {
   resolveEnvironmentIdentificationPillLabel,
   resolveSidebarStageBackdropVariant,
@@ -186,7 +185,9 @@ function SidebarBrand({ onBackdrop }: { onBackdrop: boolean }) {
 function SidebarBrandMark({ onBackdrop }: { onBackdrop: boolean }) {
   return (
     <span className="inline-flex min-w-0 items-baseline gap-1 text-sm font-medium tracking-tight">
-      <T3Wordmark aria-label="T3" className="h-[1cap] w-auto shrink-0" />
+      <span aria-hidden className="text-studio-jade">
+        ✦
+      </span>
       <span
         className={cn(
           "truncate [text-box:trim-both_cap_alphabetic] supports-[text-box:trim-both_cap_alphabetic]:py-1",
@@ -194,7 +195,7 @@ function SidebarBrandMark({ onBackdrop }: { onBackdrop: boolean }) {
         )}
       >
         {/* oxlint-disable-next-line t3code/no-untranslated-copy -- product wordmark */}
-        {"Code"}
+        {"Agent Studio"}
       </span>
     </span>
   );

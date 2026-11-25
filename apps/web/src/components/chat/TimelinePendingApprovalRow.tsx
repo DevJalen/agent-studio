@@ -50,7 +50,7 @@ export const TimelinePendingApprovalRow = memo(function TimelinePendingApprovalR
   const presentation = APPROVAL_PRESENTATION[approval.requestKind];
   const canRespond = approval.responseCapability === "live";
   return (
-    <div className="my-3 rounded-xl border border-warning/50 bg-warning-surface p-4 shadow-sm">
+    <div className="my-4 rounded-xl border border-warning/30 border-l-4 border-l-warning bg-warning-surface p-4 shadow-sm">
       <div
         className="mb-3 flex items-center gap-2 text-base font-semibold text-warning-foreground"
         role="status"

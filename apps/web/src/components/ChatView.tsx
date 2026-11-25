@@ -1,3 +1,4 @@
+import { StudioTaskProgress } from "./chat/StudioTaskProgress";
 import { m } from "../i18n/messages";
 import { thrownErrorMessage } from "@t3tools/client-runtime/errors";
 import { useGT, useMessages } from "gt-react";
@@ -3599,6 +3600,7 @@ export default function ChatView(props: ChatViewProps) {
             {!rightPanelControlsAtRoot && !rightPanelControlsInPanel ? panelLayoutControls : null}
             {inlineRightPanelOwnsTitleBar ? threadPanelHeaderControl : null}
             <ChatHeader
+              onBranch={sideChat.available ? openSideChatStable : undefined}
               provider={
                 (isWorking
                   ? providerInstanceEntries.find(
@@ -3690,6 +3692,16 @@ export default function ChatView(props: ChatViewProps) {
               {...conversationArea}
               className="relative flex min-h-0 flex-1 flex-col bg-background"
             >
+              {!embedded && !isDraftHeroState ? (
+                <div className="chat-composer-lane shrink-0 border-b border-border/40 py-4">
+                  <div className="mx-auto w-full max-w-4xl">
+                    <h1 className="line-clamp-2 text-xl font-semibold tracking-tight wrap-anywhere">
+                      {activeThread.title}
+                    </h1>
+                    <p className="mt-1 text-xs text-muted-foreground">{activeProject?.title}</p>
+                  </div>
+                </div>
+              ) : null}
               <WorkspaceMutationIdContext value={workspaceMutationId}>
                 <ThreadTimeline
                   pendingApprovals={pendingApprovals}
@@ -4165,6 +4177,22 @@ export default function ChatView(props: ChatViewProps) {
                 />
 
                 <ThreadDetailsPanel
+                  media={
+                    <>
+                      {serverProjection ? (
+                        <StudioTaskProgress plans={serverProjection.plans} />
+                      ) : null}
+                      {activeThreadRef ? (
+                        <ChatImageShelf
+                          key={activeThreadKey}
+                          messages={timelineMessages}
+                          threadRef={activeThreadRef}
+                          cwd={gitCwd ?? undefined}
+                          onImageExpand={onExpandTimelineImageStable}
+                        />
+                      ) : null}
+                    </>
+                  }
                   companion={
                     <>
                       {companionProvider ? (
@@ -4180,15 +4208,6 @@ export default function ChatView(props: ChatViewProps) {
                                   ? "working"
                                   : "idle"
                           }
-                        />
-                      ) : null}
-                      {activeThreadRef ? (
-                        <ChatImageShelf
-                          key={activeThreadKey}
-                          messages={timelineMessages}
-                          threadRef={activeThreadRef}
-                          cwd={gitCwd ?? undefined}
-                          onImageExpand={onExpandTimelineImageStable}
                         />
                       ) : null}
                     </>

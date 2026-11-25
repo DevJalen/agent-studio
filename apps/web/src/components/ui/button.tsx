@@ -65,6 +65,8 @@ const buttonVariants = cva(
         overlay: "border-transparent bg-black/70 text-white/65 [:hover,[data-pressed]]:bg-black/90",
         secondary:
           "border-transparent bg-secondary text-secondary-foreground [:active,[data-pressed]]:bg-secondary/80 [:hover,[data-pressed]]:bg-secondary/90",
+        warning:
+          "border-studio-gold bg-studio-gold text-studio-ink shadow-xs [:hover,[data-pressed]]:bg-studio-gold/90",
         "warning-outline":
           "border-warning/32 bg-warning-surface text-warning-foreground shadow-xs/5 [:disabled,:active,[data-pressed]]:shadow-none [:hover,[data-pressed]]:border-warning/40 [:hover,[data-pressed]]:bg-warning/16 dark:[:hover,[data-pressed]]:bg-warning/24",
       },

@@ -16,6 +16,7 @@ import { useEnvironmentScope } from "../../state/session";
 import { useAtomCommand } from "../../state/use-atom-command";
 import { Button } from "../ui/button";
 import { ProviderInstanceIcon } from "./ProviderInstanceIcon";
+import { Popover, PopoverPopup, PopoverTrigger } from "../ui/popover";
 import { ResetCredits } from "../usage/UsageLimits";
 
 export function StudioAccountBar({
@@ -39,7 +40,11 @@ export function StudioAccountBar({
   const folders = useClientSettings((settings) => settings.boringSidebarEnabled);
   const canRefresh = useEnvironmentScope(environmentId, AuthOrchestrationReadScope);
   const refresh = useAtomCommand(serverEnvironment.refreshProviders);
-  const accounts = providers.filter((provider) => provider.enabled);
+  const accounts = providers.filter(
+    (provider) =>
+      provider.enabled &&
+      (provider.driverKind !== "devReplay" || provider.instanceId === activeInstanceId),
+  );
   if (accounts.length === 0) return null;
 
   return (
@@ -92,7 +97,7 @@ export function StudioAccountBar({
         </div>
       </div>
       {expanded ? (
-        <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+        <div className="mt-2 flex items-start gap-3 overflow-x-auto pb-1">
           {accounts.map((provider) => {
             const limits = provider.snapshot.usageLimits;
             const active = provider.instanceId === activeInstanceId;
@@ -102,8 +107,8 @@ export function StudioAccountBar({
                 key={provider.instanceId}
                 data-account-instance={provider.instanceId}
                 className={cn(
-                  "min-w-52 flex-1 rounded-lg border px-3 py-2",
-                  active ? "border-foreground/25 bg-muted/50" : "border-border/50",
+                  "min-w-56 max-w-96 flex-1 rounded-xl border bg-muted/25 px-3 py-2.5",
+                  active ? "border-foreground/25 bg-muted/50 shadow-sm" : "border-border/50",
                 )}
               >
                 <div className="flex items-center gap-2 text-xs font-medium">
@@ -118,7 +123,9 @@ export function StudioAccountBar({
                   />
                   <span className="truncate">{provider.displayName}</span>
                   {active ? (
-                    <span className="ml-auto text-muted-foreground">{gt("In this chat")}</span>
+                    <span className="ml-auto shrink-0 rounded-full bg-muted px-2 py-0.5 text-3xs text-foreground">
+                      {gt("In this chat")}
+                    </span>
                   ) : null}
                 </div>
                 {provider.snapshot.auth.status === "unauthenticated" ? (
@@ -126,7 +133,7 @@ export function StudioAccountBar({
                 ) : null}
                 {limits?.windows.length ? (
                   <div className="mt-2 space-y-1.5">
-                    {limits.windows.slice(0, 2).map((window) => {
+                    {limits.windows.slice(0, 1).map((window) => {
                       const expired =
                         window.resetsAt !== undefined && Date.parse(window.resetsAt) <= now;
                       return (
@@ -177,14 +184,47 @@ export function StudioAccountBar({
                 ) : (
                   <p className="mt-2 text-xs text-muted-foreground">{gt("Usage unavailable")}</p>
                 )}
-                {limits?.resetCredits && limits.resetCredits.availableCount > 0 ? (
-                  <div className="mt-2 border-t border-border/50 pt-2">
-                    <ResetCredits
-                      environmentId={environmentId}
-                      input={{ instanceId: provider.instanceId }}
-                      credits={limits.resetCredits}
-                      now={now}
-                    />
+                {limits &&
+                (limits.windows.length > 1 || (limits.resetCredits?.availableCount ?? 0) > 0) ? (
+                  <div className="mt-1.5 flex items-center justify-between gap-2">
+                    <Popover>
+                      <PopoverTrigger render={<Button variant="ghost-muted" size="micro" />}>
+                        {gt("Usage details")}
+                        {(limits.resetCredits?.availableCount ?? 0) > 0 ? (
+                          <span className="rounded bg-warning/15 px-1 text-warning-foreground">
+                            {gt("Use reset")} · {limits.resetCredits?.availableCount}
+                          </span>
+                        ) : null}
+                      </PopoverTrigger>
+                      <PopoverPopup side="bottom" align="start">
+                        <div className="w-64 space-y-3">
+                          <p className="text-sm font-medium">{provider.displayName}</p>
+                          {limits.windows.map((window) => (
+                            <div key={window.id} className="text-xs">
+                              <div className="flex justify-between gap-2">
+                                <span>{window.label}</span>
+                                <span>
+                                  {gt("{percent}% used", {
+                                    percent: Math.round(window.usedPercent),
+                                  })}
+                                </span>
+                              </div>
+                              <div className="text-muted-foreground">
+                                {formatResetsIn(window, now, m)}
+                              </div>
+                            </div>
+                          ))}
+                          {limits.resetCredits && limits.resetCredits.availableCount > 0 ? (
+                            <ResetCredits
+                              environmentId={environmentId}
+                              input={{ instanceId: provider.instanceId }}
+                              credits={limits.resetCredits}
+                              now={now}
+                            />
+                          ) : null}
+                        </div>
+                      </PopoverPopup>
+                    </Popover>
                   </div>
                 ) : null}
               </div>

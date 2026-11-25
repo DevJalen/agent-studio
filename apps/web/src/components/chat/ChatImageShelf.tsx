@@ -98,9 +98,9 @@ function ImageShelfContents({ messages, threadRef, cwd, onImageExpand }: ImageSh
 
 export function ChatImageShelf(props: ImageShelfProps) {
   const gt = useGT();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   return (
-    <section className="border-t border-border/60">
+    <section data-image-shelf className="border-t border-border/60">
       <div className="p-2">
         <Button variant="ghost" size="sm" aria-expanded={open} onClick={() => setOpen(!open)}>
           <ImageIcon className="size-4" aria-hidden />

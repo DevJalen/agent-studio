@@ -1,3 +1,4 @@
+import { StudioBranchList } from "./StudioBranchList";
 import { useAtomMount, useAtomValue } from "@effect/atom-react";
 import { ModelFace } from "../chat/ModelCompanion";
 import { asLaunchingThread } from "@t3tools/client-runtime/state/thread-inbox";
@@ -1112,13 +1113,12 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
     <span
       ref={isRegeneratingTitle ? observeVisibleAnimation : undefined}
       className={cn(
-        "min-w-0 flex-1 text-start text-sm transition-opacity motion-reduce:transition-none",
+        "min-w-0 flex-1 line-clamp-2 whitespace-normal wrap-anywhere text-start text-sm leading-5 transition-opacity motion-reduce:transition-none",
         shouldRecede ? "font-normal" : "font-medium",
         isRegeneratingTitle
-          ? "relative truncate text-muted-foreground"
+          ? "relative text-muted-foreground"
           : variant !== "slim"
             ? cn(
-                "truncate",
                 shouldRecede
                   ? "text-foreground/75 group-hover/sidebar-row:text-foreground group-focus-visible/sidebar-row:text-foreground"
                   : status === "failed" && !isUnread && !isWoke
@@ -1126,7 +1126,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                     : "text-foreground",
               )
             : cn(
-                "truncate group-focus-within/sidebar-row:text-foreground group-hover/sidebar-row:text-foreground",
+                "group-focus-within/sidebar-row:text-foreground group-hover/sidebar-row:text-foreground",
                 shouldRecede
                   ? "text-secondary-label"
                   : props.isActive || isWoke || status === "input" || status === "request"
@@ -1153,7 +1153,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
       />
       {thread.title}
       {isRegeneratingTitle ? (
-        <ActivityShimmerOverlay className="truncate">{thread.title}</ActivityShimmerOverlay>
+        <ActivityShimmerOverlay className="line-clamp-2 whitespace-normal wrap-anywhere">
+          {thread.title}
+        </ActivityShimmerOverlay>
       ) : null}
     </span>
   );
@@ -1369,7 +1371,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                   rowSurfaceClassName,
                   multiline
                     ? "flex flex-col justify-center px-2.5 py-1.5"
-                    : "flex h-9 items-center gap-2.5 px-2.5",
+                    : "flex min-h-11 items-center gap-2.5 px-2.5 py-2",
                   // Lines titles up with the folder name, past its chevron and icon.
                   inFolder && "ps-9",
                 )}
@@ -1384,7 +1386,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
             }
           >
             {/* `contents` keeps one-line rows a single flex row. */}
-            <div className={multiline ? "flex h-6 min-w-0 items-center gap-2.5" : "contents"}>
+            <div className={multiline ? "flex min-h-6 min-w-0 items-center gap-2.5" : "contents"}>
               {inFolder ? null : (
                 <span
                   className={cn(
@@ -1548,6 +1550,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
           </TooltipTrigger>
           {detailsTooltip}
         </Tooltip>
+        <StudioBranchList threadRef={threadRef} onOpen={onThreadActivate} />
       </li>
     );
   }
@@ -1768,6 +1771,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
         </TooltipTrigger>
         {detailsTooltip}
       </Tooltip>
+      <StudioBranchList threadRef={threadRef} onOpen={onThreadActivate} />
     </li>
   );
 });
@@ -1948,7 +1952,7 @@ export const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props
               <span
                 ref={isRegeneratingTitle ? observeVisibleAnimation : undefined}
                 className={cn(
-                  "min-w-0 flex-1 truncate",
+                  "min-w-0 flex-1 line-clamp-2 whitespace-normal wrap-anywhere",
                   props.isSettled ? "font-normal" : "font-medium",
                   isRegeneratingTitle
                     ? "relative text-muted-foreground"
@@ -1959,7 +1963,7 @@ export const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props
               >
                 {thread.title}
                 {isRegeneratingTitle ? (
-                  <ActivityShimmerOverlay className="truncate">
+                  <ActivityShimmerOverlay className="line-clamp-2 whitespace-normal wrap-anywhere">
                     {thread.title}
                   </ActivityShimmerOverlay>
                 ) : null}

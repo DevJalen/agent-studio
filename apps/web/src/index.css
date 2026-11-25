@@ -2770,3 +2770,13 @@ code {
     animation-play-state: var(--visible-animation-state, paused);
   }
 }
+
+@theme {
+  --color-studio-jade: #4cdbb0;
+  --color-studio-gold: #ffe58b;
+  --color-studio-blush: #f3a5d0;
+  --color-studio-cream: #fff8ff;
+  --color-studio-face: #262335;
+  --color-studio-ink: #181525;
+  --color-studio-purple-shadow: #7950cd;
+}

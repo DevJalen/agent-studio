@@ -96,6 +96,7 @@ interface ThreadDetailsPanelProps extends Pick<
   onDeleteProjectScript: (scriptId: string) => Promise<ProjectScriptActionResult>;
   usage: ThreadDetailsUsageInput;
   companion?: ReactNode;
+  media?: ReactNode;
 }
 
 export function ThreadDetailsPanel(props: ThreadDetailsPanelProps) {
@@ -204,6 +205,7 @@ export function ThreadDetailsPanel(props: ThreadDetailsPanelProps) {
         return (
           <>
             <div className="group/details-items">
+              {density === "full" ? props.companion : null}
               {show.environment || show.openIn || show.scripts ? (
                 <ThreadDetailsSection
                   headingId="thread-details-workspace-heading"
@@ -334,7 +336,7 @@ export function ThreadDetailsPanel(props: ThreadDetailsPanelProps) {
                 <ThreadDetailsContext usage={props.usage.contextWindow} />
               ) : null}
 
-              {density === "full" ? props.companion : null}
+              {density === "full" ? props.media : null}
 
               {/* Shown only when no section above has content, so an emptied card can be refilled. */}
               <div className="p-2 group-has-[>section>:last-child:not(:empty)]/details-items:hidden">
