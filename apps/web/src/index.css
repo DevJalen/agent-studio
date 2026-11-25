@@ -2,6 +2,17 @@
 @layer theme, base, clerk, components, utilities;
 @import "tailwindcss";
 
+@keyframes purchase-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @custom-variant dark (&:is(.dark, .dark *));
 @custom-variant light (&:not(.dark, .dark *));
 /* Window Controls Overlay: active when Electron exposes native titlebar control geometry. */
@@ -234,6 +245,7 @@ html[data-mobile-composer-route-transition="true"]::view-transition-old(t3-mobil
   --animate-stash-pulse-count: stash-pulse-count 1400ms step-start;
   /* One-off arrivals in a workflow run's timeline; nothing here loops. */
   --animate-step-in: step-in 180ms ease-out;
+  --animate-purchase-in: purchase-in 240ms ease-out;
   --animate-step-ping: step-ping 520ms ease-out;
   --animate-check-draw: check-draw 200ms ease-out;
   --color-warning-foreground: var(--warning-foreground);

@@ -90,9 +90,19 @@ without changing your shared Codex configuration. Generation still requires a su
 account; the flag does not add an entitlement. See [Codex images](providers-codex.md#generate-images).
 Plugins in the official Codex desktop app are not automatically available to the standalone Codex CLI.
 
-Use **Chat images** beneath the workspace controls to browse image attachments and image links from loaded
-messages. The shelf shows up to 48 of each and opens the existing image viewer. It does not search
+Use **Chat images** beneath the workspace controls to browse agent-shared screenshots and image outputs from loaded
+assistant messages. Your reference attachments stay in the conversation and are excluded from the shelf,
+including matching images echoed by an assistant. The shelf shows up to 48 of each and opens the existing image viewer. It does not search
 other chats or generate new images.
+
+## Purchase notifications
+
+With a purchase tracker connected, new purchases appear automatically in the companion panel and play
+the cash-register sound. The speaker button mutes only sound and remembers your choice. Recent purchases
+expand inside that panel without covering the conversation. Opening the app loads history silently.
+
+Pass amounts marked **listed** are current catalog prices; receipt amounts are the recorded Robux paid.
+The tracker connection is read-only and kept on the host. Notifications do not use model tokens.
 
 Add your game workspace as a project. Its existing `AGENTS.md`/`CLAUDE.md` and shared vault remain
 the source of game-specific instructions. Keep game work in that workspace; keep this public fork

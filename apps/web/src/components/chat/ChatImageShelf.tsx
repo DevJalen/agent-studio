@@ -1,10 +1,10 @@
 import type { ScopedThreadRef } from "@t3tools/contracts";
-import { chatMarkdownImageSources } from "@t3tools/shared/markdownPipeline";
 import { useGT } from "gt-react";
 import { ImageIcon } from "lucide-react";
 import { useState } from "react";
 import { useAssetUrls } from "../../assets/assetUrls";
-import { type ChatMessage, isImageAttachment } from "../../types";
+import { type ChatMessage } from "../../types";
+import { agentGalleryImages } from "./ChatImageShelf.logic";
 import ChatMarkdown from "../ChatMarkdown";
 import { AttachmentImage } from "../media/AttachmentImage";
 import { Button } from "../ui/button";
@@ -20,22 +20,7 @@ interface ImageShelfProps {
 
 function ImageShelfContents({ messages, threadRef, cwd, onImageExpand }: ImageShelfProps) {
   const gt = useGT();
-  const attachments = Array.from(
-    new Map(
-      messages.flatMap((message) =>
-        (message.attachments ?? [])
-          .filter(isImageAttachment)
-          .map((image) => [image.id, image] as const),
-      ),
-    ).values(),
-  ).slice(-48);
-  const sources = Array.from(
-    new Set(
-      messages
-        .filter((message) => !message.streaming)
-        .flatMap((message) => chatMarkdownImageSources(message.text)),
-    ),
-  ).slice(-48);
+  const { attachments, sources } = agentGalleryImages(messages);
   const urls = useAssetUrls(
     threadRef.environmentId,
     attachments.map((image) => ({
@@ -91,12 +76,8 @@ function ImageShelfContents({ messages, threadRef, cwd, onImageExpand }: ImageSh
 export function ChatImageShelf(props: ImageShelfProps) {
   const gt = useGT();
   const [open, setOpen] = useState(true);
-  const count = new Set(
-    props.messages.flatMap((message) => [
-      ...(message.attachments ?? []).filter(isImageAttachment).map((image) => image.id),
-      ...(!message.streaming ? chatMarkdownImageSources(message.text) : []),
-    ]),
-  ).size;
+  const { attachments, sources } = agentGalleryImages(props.messages);
+  const count = attachments.length + sources.length;
   if (count === 0) return null;
   return (
     <section data-image-shelf className="border-t border-border/60">

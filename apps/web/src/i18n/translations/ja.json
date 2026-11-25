@@ -12938,5 +12938,20 @@
   "1a357fa864ed1efc": "操作を選択するまでエージェントは一時停止しています。",
   "c346c3b02750992f": "サイドチャットを開始",
   "bdbc3800fcc2daab": "進捗",
-  "a882288fa121f633": "メイン"
+  "a882288fa121f633": "メイン",
+  "2290e846e909f2c6": "Pass purchased",
+  "a9506c4de72b9c38": "{amount} Robux",
+  "72ff2472ded93c98": "listed",
+  "111f97bcc7e22f8a": "Current listed price; the tracker does not record the amount paid for passes.",
+  "070bc0ea55f251ce": "reported",
+  "474d0afe7c3fbd33": "Reported price; this may be the current listed price.",
+  "426d8f9f42b5720a": "Game purchases",
+  "0f3170e7d19169e4": "Dismiss purchase",
+  "1e8b437b8119323b": "New purchase",
+  "06d1d04a9f24821b": "Purchases",
+  "425be7ecd878142d": "Live",
+  "36cc113a7fcb1184": "Unmute purchase sounds",
+  "f4c4ca958ad9d951": "Mute purchase sounds",
+  "73f9407e0432c92e": "Waiting for purchases",
+  "6688c4bb5216557a": "Recent purchases"
 }

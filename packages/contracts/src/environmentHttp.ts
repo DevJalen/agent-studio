@@ -1,4 +1,5 @@
 import * as Context from "effect/Context";
+import { PurchaseFeedSnapshot } from "./purchases.ts";
 import type * as DateTime from "effect/DateTime";
 import * as Schema from "effect/Schema";
 import * as HttpApi from "effect/http-api/HttpApi";
@@ -814,6 +815,15 @@ class EnvironmentOrchestrationHttpApi extends HttpApiGroup.make("orchestration")
     }).middleware(EnvironmentAuthenticatedAuth),
   ) {}
 
+class EnvironmentPurchasesHttpApi extends HttpApiGroup.make("purchases").add(
+  HttpApiEndpoint.get("feed", "/api/purchases", {
+    headers: OptionalBearerHeaders,
+    query: Schema.Struct({ after: Schema.optional(Schema.String) }),
+    success: PurchaseFeedSnapshot,
+    error: [EnvironmentAuthInvalidError, EnvironmentScopeRequiredError],
+  }).middleware(EnvironmentAuthenticatedAuth),
+) {}
+
 class EnvironmentProjectsHttpApi extends HttpApiGroup.make("projects")
   .add(
     HttpApiEndpoint.get("snapshot", "/api/projects", {
@@ -1107,6 +1117,7 @@ export class EnvironmentHttpApi extends HttpApi.make("environment")
   .add(EnvironmentOrchestrationHttpApi)
   .add(EnvironmentPullRequestsHttpApi)
   .add(EnvironmentProjectsHttpApi)
+  .add(EnvironmentPurchasesHttpApi)
   .add(EnvironmentVoiceHttpApi)
   .add(EnvironmentConnectHttpApi)
   .add(EnvironmentWebhooksHttpApi)

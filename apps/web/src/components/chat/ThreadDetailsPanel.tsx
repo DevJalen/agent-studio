@@ -1,3 +1,4 @@
+import { StudioPurchases } from "../purchases/StudioPurchases";
 import type {
   EditorId,
   EnvironmentId,
@@ -377,6 +378,7 @@ export function ThreadDetailsPanel(props: ThreadDetailsPanelProps) {
                 </div>
               </details>
               {density === "full" ? props.media : null}
+              {density === "full" ? <StudioPurchases /> : null}
             </div>
 
             <Menu
