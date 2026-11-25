@@ -12991,20 +12991,13 @@
   "7c5e9b18111ea064": "Inofficiell fork baserad på T3 Code. Ingen koppling till T3 Tools.",
   "59ea8b88c155fb5c": "{provider} behöver ditt godkännande",
   "ba0b04d5f75164ca": "Granska begäran",
-  "a56b86a6645a15ee": "Bilder från inlästa meddelanden. Klicka för att förhandsvisa.",
-  "0172fa00dd07ee4b": "Bilder som delas i chatten visas här.",
   "9d2755294cdf0aa0": "Chattbilder",
   "4e23b9f41bdee766": "Gäller ditt nästa meddelande. Stoppa den pågående körningen och skicka igen för att ändra behörigheterna.",
   "0b45ef11de2027ca": "Approve once",
-  "76d79649d137a87e": "Animerad",
-  "4c554a8351cb3a88": "Stillbild",
   "cdfde8588699b522": "Väntar på ditt svar",
   "2d9cedd96cb8d693": "Redo när du är",
   "ed60dbfb620f066b": "Modellkompis",
-  "72529f0a4c992512": "Modellansikten",
-  "7747c385ab04b88d": "Lokal animation. Inga modelltoken eller förfrågningar.",
   "d36507c4f56f5895": "Konton och användning",
-  "d6b5c4d96562bdd5": "Projektmappar",
   "3b3ec2ddc2d4b3f9": "Hantera konton",
   "b36fb4e03f815504": "Användningsdetaljer",
   "4dd6d20188c210e0": "I den här chatten",
@@ -13015,5 +13008,6 @@
   "8baf8bea22ea7642": "Godkännande krävs",
   "1a357fa864ed1efc": "Agenten är pausad tills du väljer en åtgärd.",
   "c346c3b02750992f": "Starta en sidokonversation",
-  "bdbc3800fcc2daab": "Framsteg"
+  "bdbc3800fcc2daab": "Framsteg",
+  "a882288fa121f633": "Huvudchatt"
 }

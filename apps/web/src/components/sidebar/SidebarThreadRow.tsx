@@ -1,4 +1,4 @@
-import { StudioBranchList } from "./StudioBranchList";
+import { StudioBranchList, StudioLeadBadge } from "./StudioBranchList";
 import { useAtomMount, useAtomValue } from "@effect/atom-react";
 import { ModelFace } from "../chat/ModelCompanion";
 import { asLaunchingThread } from "@t3tools/client-runtime/state/thread-inbox";
@@ -1140,6 +1140,10 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
     >
       <ModelFace
         model={thread.modelSelection.model}
+        label={
+          providerEntry?.models.find((model) => model.slug === thread.modelSelection.model)?.name ??
+          thread.modelSelection.model
+        }
         driver={providerEntry?.driverKind ?? ""}
         state={
           status === "approval"
@@ -1402,6 +1406,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
               )}
               {draftIndicator}
               {title}
+              <StudioLeadBadge threadRef={threadRef} />
               {multiline ? titleLineIcons : null}
               {pinIndicator}
               {multiline ? null : terminalStatusIcon}
@@ -1759,6 +1764,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
             </div>
             <div className="mt-1 flex min-w-0 items-center gap-1.5">
               {title}
+              <StudioLeadBadge threadRef={threadRef} />
               {isRegeneratingTitle ? (
                 <span role="status" className="sr-only">
                   <T>Regenerating title</T>

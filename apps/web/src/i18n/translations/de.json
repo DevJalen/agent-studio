@@ -12984,20 +12984,13 @@
   "7c5e9b18111ea064": "Inoffizieller Fork auf Basis von T3 Code. Nicht mit T3 Tools verbunden.",
   "59ea8b88c155fb5c": "{provider} benötigt deine Genehmigung",
   "ba0b04d5f75164ca": "Genehmigung prüfen",
-  "a56b86a6645a15ee": "Bilder aus geladenen Nachrichten. Zum Vorschauen anklicken.",
-  "0172fa00dd07ee4b": "Hier erscheinen im Chat geteilte Bilder.",
   "9d2755294cdf0aa0": "Chatbilder",
   "4e23b9f41bdee766": "Gilt für deine nächste Nachricht. Stoppe den aktuellen Lauf und sende erneut, um seine Berechtigungen zu ändern.",
   "0b45ef11de2027ca": "Approve once",
-  "76d79649d137a87e": "Animiert",
-  "4c554a8351cb3a88": "Statisch",
   "cdfde8588699b522": "Wartet auf deine Antwort",
   "2d9cedd96cb8d693": "Bereit, wenn du es bist",
   "ed60dbfb620f066b": "Modellbegleiter",
-  "72529f0a4c992512": "Modellgesichter",
-  "7747c385ab04b88d": "Lokale Animation. Keine Modell-Tokens oder Anfragen.",
   "d36507c4f56f5895": "Konten und Nutzung",
-  "d6b5c4d96562bdd5": "Projektordner",
   "3b3ec2ddc2d4b3f9": "Konten verwalten",
   "b36fb4e03f815504": "Nutzungsdetails",
   "4dd6d20188c210e0": "In diesem Chat",
@@ -13008,5 +13001,6 @@
   "8baf8bea22ea7642": "Genehmigung erforderlich",
   "1a357fa864ed1efc": "Der Agent wartet, bis du eine Aktion auswählst.",
   "c346c3b02750992f": "Nebengespräch starten",
-  "bdbc3800fcc2daab": "Fortschritt"
+  "bdbc3800fcc2daab": "Fortschritt",
+  "a882288fa121f633": "Leit-Chat"
 }

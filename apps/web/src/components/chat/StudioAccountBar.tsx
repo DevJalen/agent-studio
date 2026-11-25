@@ -1,14 +1,11 @@
 import { AuthOrchestrationReadScope, type EnvironmentId } from "@t3tools/contracts";
 import { refreshUsageLimits } from "@t3tools/client-runtime/state/usage";
 import { Link } from "@tanstack/react-router";
-import * as Schema from "effect/Schema";
 import { useGT, useMessages } from "gt-react";
 import { formatResetsIn } from "@t3tools/shared/usageLimitsCopy";
-import { ChevronDownIcon, RefreshCwIcon } from "lucide-react";
+import { Settings2Icon, RefreshCwIcon } from "lucide-react";
 import { useState } from "react";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useNowMinute } from "../../hooks/useNowMinute";
-import { useClientSettings, updateClientSettings } from "../../hooks/useSettings";
 import { cn } from "../../lib/utils";
 import type { ProviderInstanceEntry } from "../../providerInstances";
 import { serverEnvironment } from "../../state/server";
@@ -31,19 +28,13 @@ export function StudioAccountBar({
   const gt = useGT();
   const m = useMessages();
   const now = Date.parse(useNowMinute());
-  const [expanded, setExpanded] = useLocalStorage(
-    "agent-studio:accounts-expanded",
-    true,
-    Schema.Boolean,
-  );
   const [refreshing, setRefreshing] = useState(false);
-  const folders = useClientSettings((settings) => settings.boringSidebarEnabled);
   const canRefresh = useEnvironmentScope(environmentId, AuthOrchestrationReadScope);
   const refresh = useAtomCommand(serverEnvironment.refreshProviders);
   const accounts = providers.filter(
     (provider) =>
       provider.enabled &&
-      (provider.driverKind !== "devReplay" || provider.instanceId === activeInstanceId),
+      (provider.instanceId !== "devReplay" || provider.instanceId === activeInstanceId),
   );
   if (accounts.length === 0) return null;
 
@@ -52,52 +43,8 @@ export function StudioAccountBar({
       aria-label={gt("Accounts and usage")}
       className="shrink-0 border-b border-border/60 bg-muted/15 px-3 py-2 sm:px-5"
     >
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <Button
-          variant="ghost"
-          size="xs"
-          aria-expanded={expanded}
-          onClick={() => setExpanded(!expanded)}
-        >
-          <ChevronDownIcon className={cn("size-3.5", !expanded && "-rotate-90")} aria-hidden />
-          {gt("Accounts and usage")}
-        </Button>
-        <div className="flex items-center gap-3 text-xs text-muted-foreground">
-          <Button
-            variant="ghost"
-            size="xs"
-            aria-pressed={folders}
-            onClick={() => void updateClientSettings({ boringSidebarEnabled: !folders })}
-          >
-            {gt("Project folders")}
-          </Button>
-          <Link to="/settings/providers" className="hover:text-foreground">
-            {gt("Manage accounts")}
-          </Link>
-          <Link to="/usage" className="hover:text-foreground">
-            {gt("Usage details")}
-          </Link>
-          <Button
-            variant="ghost"
-            size="icon-xs"
-            disabled={refreshing || !canRefresh}
-            aria-label={gt("Refresh usage")}
-            onClick={async () => {
-              setRefreshing(true);
-              await refreshUsageLimits(
-                environmentId,
-                () => refresh({ environmentId, input: {} }),
-                false,
-              ).catch(() => undefined);
-              setRefreshing(false);
-            }}
-          >
-            <RefreshCwIcon className="size-3.5" aria-hidden />
-          </Button>
-        </div>
-      </div>
-      {expanded ? (
-        <div className="mt-2 flex items-start gap-3 overflow-x-auto pb-1">
+      <div className="flex items-start gap-2">
+        <div className="flex min-w-0 flex-1 items-stretch gap-3 overflow-x-auto pb-1">
           {accounts.map((provider) => {
             const limits = provider.snapshot.usageLimits;
             const active = provider.instanceId === activeInstanceId;
@@ -107,8 +54,8 @@ export function StudioAccountBar({
                 key={provider.instanceId}
                 data-account-instance={provider.instanceId}
                 className={cn(
-                  "min-w-56 max-w-96 flex-1 rounded-xl border bg-muted/25 px-3 py-2.5",
-                  active ? "border-foreground/25 bg-muted/50 shadow-sm" : "border-border/50",
+                  "min-w-52 flex-1 rounded-xl border bg-card px-4 py-3",
+                  active ? "border-primary/40 shadow-sm" : "border-border",
                 )}
               >
                 <div className="flex items-center gap-2 text-xs font-medium">
@@ -186,7 +133,7 @@ export function StudioAccountBar({
                 )}
                 {limits &&
                 (limits.windows.length > 1 || (limits.resetCredits?.availableCount ?? 0) > 0) ? (
-                  <div className="mt-1.5 flex items-center justify-between gap-2">
+                  <div className="mt-1.5 flex min-h-5 items-center justify-between gap-2">
                     <Popover>
                       <PopoverTrigger render={<Button variant="ghost-muted" size="micro" />}>
                         {gt("Usage details")}
@@ -231,7 +178,43 @@ export function StudioAccountBar({
             );
           })}
         </div>
-      ) : null}
+        <Popover>
+          <PopoverTrigger
+            render={
+              <Button variant="ghost-muted" size="icon-sm" aria-label={gt("Manage accounts")} />
+            }
+          >
+            <Settings2Icon className="size-4" />
+          </PopoverTrigger>
+          <PopoverPopup side="bottom" align="end">
+            <div className="flex flex-col items-start gap-3 text-sm">
+              <Link to="/settings/providers" className="hover:text-primary">
+                {gt("Manage accounts")}
+              </Link>
+              <Link to="/usage" className="hover:text-primary">
+                {gt("Usage details")}
+              </Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={refreshing || !canRefresh}
+                onClick={async () => {
+                  setRefreshing(true);
+                  await refreshUsageLimits(
+                    environmentId,
+                    () => refresh({ environmentId, input: {} }),
+                    false,
+                  ).catch(() => undefined);
+                  setRefreshing(false);
+                }}
+              >
+                <RefreshCwIcon className="size-3.5" />
+                {gt("Refresh usage")}
+              </Button>
+            </div>
+          </PopoverPopup>
+        </Popover>
+      </div>
     </section>
   );
 }

@@ -12993,20 +12993,13 @@
   "7c5e9b18111ea064": "Unofficial fork based on T3 Code. Not affiliated with T3 Tools.",
   "59ea8b88c155fb5c": "{provider} needs your approval",
   "ba0b04d5f75164ca": "Review approval",
-  "a56b86a6645a15ee": "Images from loaded messages. Click to preview.",
-  "0172fa00dd07ee4b": "Images shared in this chat will appear here.",
   "9d2755294cdf0aa0": "Chat images",
   "4e23b9f41bdee766": "Applies to your next message. Stop the current run and send again to change its permissions.",
   "0b45ef11de2027ca": "Approve once",
-  "76d79649d137a87e": "Animated",
-  "4c554a8351cb3a88": "Still",
   "cdfde8588699b522": "Waiting for your reply",
   "2d9cedd96cb8d693": "Ready when you are",
   "ed60dbfb620f066b": "Model companion",
-  "72529f0a4c992512": "Model faces",
-  "7747c385ab04b88d": "Local animation. No model tokens or requests.",
   "d36507c4f56f5895": "Accounts and usage",
-  "d6b5c4d96562bdd5": "Project folders",
   "3b3ec2ddc2d4b3f9": "Manage accounts",
   "b36fb4e03f815504": "Usage details",
   "4dd6d20188c210e0": "In this chat",
@@ -13017,5 +13010,6 @@
   "8baf8bea22ea7642": "Approval required",
   "1a357fa864ed1efc": "The agent is paused until you choose an action.",
   "c346c3b02750992f": "Start a side chat",
-  "bdbc3800fcc2daab": "Progress"
+  "bdbc3800fcc2daab": "Progress",
+  "a882288fa121f633": "Lead"
 }

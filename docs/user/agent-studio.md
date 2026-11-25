@@ -64,24 +64,23 @@ Setup is create-once. Relaunching preserves saved settings, account names, and p
 
 The account bar shows each account's name and reported usage limits, without displaying email addresses. Select **Usage details**
 for all limits, or refresh to request updated readings. Missing readings stay unavailable, and old
-readings are marked. **Project folders** switches between chat cards and collapsible project groups.
+readings are marked. Account management and refresh are in the settings menu beside the cards.
 The compact cards show the first reported limit. Open an account's **Usage details** for its remaining
 limits and available reset credits, including model-specific credits. Choose **Use** or **Use reset**
 and confirm the named credit to redeem it. Opening the controls never spends a credit.
 
-Open the chat's details panel to see its model companion above the workspace controls. It shows the
+Open the chat's details panel to see its model companion. Expand **Workspace** for editor, script, and repository controls. It shows the
 current account, model, and whether work is running or waiting for you. Each model has its own
 pixel-art companion with a large face, distinct headgear, and model-version details. While working,
 its eyes look around and blink, and its head moves. Idle and waiting companions stay still.
-Choose **Animated**, **Still**,
-or **Off** under **Model faces**. Faces and their animations run locally without model requests or
+The companion reacts automatically to the chat. Faces and their animations run locally without model requests or
 tokens; reduced-motion preferences disable the animation, and hidden companions pause. Sidebar faces remain still.
 
 Chat names wrap onto two lines. Set **Thread title instructions** in Settings to choose a short naming
 style for generated titles; existing names can be renamed from their menu. Linked children appear in
 a collapsible **Branches** list under their parent. **Branch** opens a side chat using the app's existing
 context-sharing controls; it does not automatically delegate a job. Agent-created subagents appear
-when the provider starts them. A **Progress** card appears when the agent reports a task list.
+when the provider starts them. A collapsible **Progress** card appears under the chat title when the agent reports a task list.
 
 ## Images and game projects
 

@@ -51,14 +51,6 @@ function ImageShelfContents({ messages, threadRef, cwd, onImageExpand }: ImageSh
   }));
   return (
     <div className="max-h-64 space-y-2 overflow-y-auto px-3 pb-3" data-image-gallery>
-      <p className="text-xs text-muted-foreground">
-        {gt("Images from loaded messages. Click to preview.")}
-      </p>
-      {attachments.length === 0 && sources.length === 0 ? (
-        <p className="text-xs text-muted-foreground">
-          {gt("Images shared in this chat will appear here.")}
-        </p>
-      ) : null}
       <div className="grid grid-cols-2 gap-2">
         {attachments.map((image, index) => (
           <button
@@ -99,12 +91,19 @@ function ImageShelfContents({ messages, threadRef, cwd, onImageExpand }: ImageSh
 export function ChatImageShelf(props: ImageShelfProps) {
   const gt = useGT();
   const [open, setOpen] = useState(true);
+  const count = new Set(
+    props.messages.flatMap((message) => [
+      ...(message.attachments ?? []).filter(isImageAttachment).map((image) => image.id),
+      ...(!message.streaming ? chatMarkdownImageSources(message.text) : []),
+    ]),
+  ).size;
+  if (count === 0) return null;
   return (
     <section data-image-shelf className="border-t border-border/60">
       <div className="p-2">
         <Button variant="ghost" size="sm" aria-expanded={open} onClick={() => setOpen(!open)}>
           <ImageIcon className="size-4" aria-hidden />
-          {gt("Chat images")}
+          {gt("Chat images")} <span className="text-muted-foreground tabular-nums">{count}</span>
         </Button>
       </div>
       {open ? <ImageShelfContents {...props} /> : null}

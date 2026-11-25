@@ -14,16 +14,8 @@ import { threadRelationshipStatusLabel } from "../chat/ThreadRelationshipIcon";
 import { Button } from "../ui/button";
 import { cn } from "../../lib/utils";
 
-export function StudioBranchList({
-  threadRef,
-  onOpen,
-}: {
-  threadRef: ScopedThreadRef;
-  onOpen: (ref: ScopedThreadRef) => void;
-}) {
+function useStudioBranches(threadRef: ScopedThreadRef) {
   const gt = useGT();
-  const messages = useMessages();
-  const [collapsed, setCollapsed] = useState(false);
   const shells = useThreadRelationshipShells(threadRef);
   const projection = useQuietThreadProjection(threadRef)?.projection;
   const hidden = useHiddenThreadKeys();
@@ -69,6 +61,30 @@ export function StudioBranchList({
   const rows = [...children.values()].filter(
     (child) => !hidden.has(threadKey(scopeThreadRef(threadRef.environmentId, child.id))),
   );
+  return rows;
+}
+
+export function StudioLeadBadge({ threadRef }: { threadRef: ScopedThreadRef }) {
+  const gt = useGT();
+  const rows = useStudioBranches(threadRef);
+  return rows.length > 0 ? (
+    <span className="shrink-0 rounded-md border border-warning/40 bg-warning/10 px-1.5 py-0.5 text-3xs text-warning-foreground">
+      {gt("Lead")}
+    </span>
+  ) : null;
+}
+
+export function StudioBranchList({
+  threadRef,
+  onOpen,
+}: {
+  threadRef: ScopedThreadRef;
+  onOpen: (ref: ScopedThreadRef) => void;
+}) {
+  const gt = useGT();
+  const messages = useMessages();
+  const [collapsed, setCollapsed] = useState(false);
+  const rows = useStudioBranches(threadRef);
   if (rows.length === 0) return null;
   return (
     <div className="mb-2 ml-5 mr-1" data-studio-branches>

@@ -111,7 +111,10 @@ export const WorkGroupSection = memo(function WorkGroupSection({
   }
 
   return (
-    <section aria-label={gt("Activity")}>
+    <section
+      aria-label={gt("Activity")}
+      className="rounded-b-xl border border-t-0 border-border bg-card/60 px-3 py-2"
+    >
       {nonEmptyEntries.map((workEntry) => (
         <SimpleWorkEntryRow
           key={workEntry.id}
@@ -307,42 +310,44 @@ function ExpandedWorkGroupEntries({
 
   return (
     <WorkGroupViewCtx value={groupView}>
-      <WorkLogList>
-        <LegendList
-          ref={listRef}
-          data={entries}
-          extraData={workspaceRoot}
-          keyExtractor={workEntryKey}
-          renderItem={renderEntry}
-          estimatedItemSize={compactWorkEntryHeight}
-          drawDistance={240}
-          recycleItems
-          {...(initialScrollIndex ? { initialScrollIndex } : {})}
-          maintainScrollAtEnd={
-            appendState.follow ? { animated: false, on: { dataChange: true } } : false
-          }
-          maintainScrollAtEndThreshold={1 / Math.max(1, fades.viewportHeight)}
-          // Measure the restored row even when an intra-row offset puts its
-          // estimated bounds outside the list's small bootstrap render window.
-          {...(restoringPosition && initialScrollIndex
-            ? { alwaysRender: { indices: [initialScrollIndex.index] } }
-            : {})}
-          maintainVisibleContentPosition
-          onLoad={handleLoad}
-          onScroll={handleScroll}
-          onLayout={updateScrollFades}
-          onItemSizeChanged={updateExpandedContentHeight}
-          tabIndex={0}
-          role="region"
-          aria-label={gt("Tool calls")}
-          data-tool-group-scroll
-          style={{ maxHeight: `calc(min(18rem, 50dvh) + ${expandedContentHeight}px)` }}
-          className={cn(
-            "scrollbar-gutter-stable scroll-py-6 overflow-x-hidden rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70",
-            getVirtualizedScrollFadeClassName(fades),
-          )}
-        />
-      </WorkLogList>
+      <div className="rounded-b-xl border border-t-0 border-border bg-card/60 px-3 py-2">
+        <WorkLogList>
+          <LegendList
+            ref={listRef}
+            data={entries}
+            extraData={workspaceRoot}
+            keyExtractor={workEntryKey}
+            renderItem={renderEntry}
+            estimatedItemSize={compactWorkEntryHeight}
+            drawDistance={240}
+            recycleItems
+            {...(initialScrollIndex ? { initialScrollIndex } : {})}
+            maintainScrollAtEnd={
+              appendState.follow ? { animated: false, on: { dataChange: true } } : false
+            }
+            maintainScrollAtEndThreshold={1 / Math.max(1, fades.viewportHeight)}
+            // Measure the restored row even when an intra-row offset puts its
+            // estimated bounds outside the list's small bootstrap render window.
+            {...(restoringPosition && initialScrollIndex
+              ? { alwaysRender: { indices: [initialScrollIndex.index] } }
+              : {})}
+            maintainVisibleContentPosition
+            onLoad={handleLoad}
+            onScroll={handleScroll}
+            onLayout={updateScrollFades}
+            onItemSizeChanged={updateExpandedContentHeight}
+            tabIndex={0}
+            role="region"
+            aria-label={gt("Tool calls")}
+            data-tool-group-scroll
+            style={{ maxHeight: `calc(min(18rem, 50dvh) + ${expandedContentHeight}px)` }}
+            className={cn(
+              "scrollbar-gutter-stable scroll-py-6 overflow-x-hidden rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70",
+              getVirtualizedScrollFadeClassName(fades),
+            )}
+          />
+        </WorkLogList>
+      </div>
     </WorkGroupViewCtx>
   );
 }
@@ -749,24 +754,34 @@ function WorkGroupHeader(props: {
 }) {
   const gt = useGT();
   return (
-    <WorkLogButton
-      aria-label={
-        props.failed ? gt("{label}, tool call failed", { label: props.label }) : props.label
-      }
-      aria-expanded={props.expanded}
-      onClick={props.onToggle}
-      icon={
-        <ToolActivityIconView
-          icon={props.toolIcon}
-          fallbackName={props.iconName}
-          className="size-4 shrink-0 stroke-2 text-icon-muted"
-          muted
-        />
-      }
-      label={<span className="block truncate">{props.label}</span>}
-      trailing={
-        <TimelineRowTimestamp createdAt={props.createdAt} timestampFormat={props.timestampFormat} />
-      }
-    />
+    <div
+      className={cn(
+        "border border-border bg-card px-3 py-2",
+        props.expanded ? "rounded-t-xl" : "rounded-xl",
+      )}
+    >
+      <WorkLogButton
+        aria-label={
+          props.failed ? gt("{label}, tool call failed", { label: props.label }) : props.label
+        }
+        aria-expanded={props.expanded}
+        onClick={props.onToggle}
+        icon={
+          <ToolActivityIconView
+            icon={props.toolIcon}
+            fallbackName={props.iconName}
+            className="size-4 shrink-0 stroke-2 text-icon-muted"
+            muted
+          />
+        }
+        label={<span className="block truncate font-medium text-foreground">{props.label}</span>}
+        trailing={
+          <TimelineRowTimestamp
+            createdAt={props.createdAt}
+            timestampFormat={props.timestampFormat}
+          />
+        }
+      />
+    </div>
   );
 }

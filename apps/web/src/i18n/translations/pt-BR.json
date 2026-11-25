@@ -12984,20 +12984,13 @@
   "7c5e9b18111ea064": "Fork não oficial baseado no T3 Code. Sem vínculo com a T3 Tools.",
   "59ea8b88c155fb5c": "{provider} precisa da sua aprovação",
   "ba0b04d5f75164ca": "Revisar aprovação",
-  "a56b86a6645a15ee": "Imagens das mensagens carregadas. Clique para visualizar.",
-  "0172fa00dd07ee4b": "As imagens compartilhadas neste chat aparecerão aqui.",
   "9d2755294cdf0aa0": "Imagens do chat",
   "4e23b9f41bdee766": "Aplica-se à próxima mensagem. Pare a execução atual e envie novamente para alterar as permissões.",
   "0b45ef11de2027ca": "Approve once",
-  "76d79649d137a87e": "Animado",
-  "4c554a8351cb3a88": "Estático",
   "cdfde8588699b522": "Aguardando sua resposta",
   "2d9cedd96cb8d693": "Pronto quando você quiser",
   "ed60dbfb620f066b": "Companheiro do modelo",
-  "72529f0a4c992512": "Rostos dos modelos",
-  "7747c385ab04b88d": "Animação local. Sem tokens ou solicitações ao modelo.",
   "d36507c4f56f5895": "Contas e uso",
-  "d6b5c4d96562bdd5": "Pastas de projetos",
   "3b3ec2ddc2d4b3f9": "Gerenciar contas",
   "b36fb4e03f815504": "Detalhes de uso",
   "4dd6d20188c210e0": "Neste chat",
@@ -13008,5 +13001,6 @@
   "8baf8bea22ea7642": "Aprovação necessária",
   "1a357fa864ed1efc": "O agente está pausado até você escolher uma ação.",
   "c346c3b02750992f": "Iniciar conversa paralela",
-  "bdbc3800fcc2daab": "Progresso"
+  "bdbc3800fcc2daab": "Progresso",
+  "a882288fa121f633": "Principal"
 }

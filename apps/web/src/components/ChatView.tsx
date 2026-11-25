@@ -1,3 +1,4 @@
+import { GitBranchIcon, MessageSquareIcon } from "lucide-react";
 import { StudioTaskProgress } from "./chat/StudioTaskProgress";
 import { m } from "../i18n/messages";
 import { thrownErrorMessage } from "@t3tools/client-runtime/errors";
@@ -1603,6 +1604,12 @@ export default function ChatView(props: ChatViewProps) {
           (entry) => entry.instanceId === activeRuntime?.providerInstanceId,
         )
       : undefined) ?? selectedProviderEntry;
+  const companionThinking =
+    isWorking &&
+    serverVisibleTurnItems.some(
+      ({ item }) =>
+        item.runId === activeRuntime?.activeRunId && item.type === "reasoning" && item.streaming,
+    );
   const companionModel = (isWorking ? activeThread?.modelSelection.model : activeUsageModel) ?? "";
   const activeContextWindow = deriveLatestContextWindowSnapshot(
     serverVisibleTurnItems ?? [],
@@ -3600,7 +3607,6 @@ export default function ChatView(props: ChatViewProps) {
             {!rightPanelControlsAtRoot && !rightPanelControlsInPanel ? panelLayoutControls : null}
             {inlineRightPanelOwnsTitleBar ? threadPanelHeaderControl : null}
             <ChatHeader
-              onBranch={sideChat.available ? openSideChatStable : undefined}
               provider={
                 (isWorking
                   ? providerInstanceEntries.find(
@@ -3695,10 +3701,32 @@ export default function ChatView(props: ChatViewProps) {
               {!embedded && !isDraftHeroState ? (
                 <div className="chat-composer-lane shrink-0 border-b border-border/40 py-4">
                   <div className="mx-auto w-full max-w-4xl">
-                    <h1 className="line-clamp-2 text-xl font-semibold tracking-tight wrap-anywhere">
-                      {activeThread.title}
-                    </h1>
-                    <p className="mt-1 text-xs text-muted-foreground">{activeProject?.title}</p>
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="min-w-0">
+                        <p className="mb-2 text-xs text-muted-foreground">{activeProject?.title}</p>
+                        <h1 className="flex items-start gap-3 text-2xl font-semibold tracking-tight">
+                          <MessageSquareIcon
+                            className="mt-1 size-6 shrink-0 text-muted-foreground"
+                            aria-hidden
+                          />
+                          <span className="line-clamp-2 wrap-anywhere">{activeThread.title}</span>
+                        </h1>
+                      </div>
+                      {sideChat.available ? (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={openSideChatStable}
+                          aria-label={gt("Start a side chat")}
+                        >
+                          <GitBranchIcon className="size-4" />
+                          {gt("Branch")}
+                        </Button>
+                      ) : null}
+                    </div>
+                    {serverProjection ? (
+                      <StudioTaskProgress plans={serverProjection.plans} />
+                    ) : null}
                   </div>
                 </div>
               ) : null}
@@ -4179,9 +4207,6 @@ export default function ChatView(props: ChatViewProps) {
                 <ThreadDetailsPanel
                   media={
                     <>
-                      {serverProjection ? (
-                        <StudioTaskProgress plans={serverProjection.plans} />
-                      ) : null}
                       {activeThreadRef ? (
                         <ChatImageShelf
                           key={activeThreadKey}
@@ -4204,9 +4229,13 @@ export default function ChatView(props: ChatViewProps) {
                               ? "approval"
                               : pendingUserInputs.length > 0
                                 ? "input"
-                                : isWorking
-                                  ? "working"
-                                  : "idle"
+                                : threadError
+                                  ? "error"
+                                  : isWorking
+                                    ? companionThinking
+                                      ? "thinking"
+                                      : "working"
+                                    : "idle"
                           }
                         />
                       ) : null}

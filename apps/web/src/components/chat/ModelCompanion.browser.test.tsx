@@ -1,6 +1,5 @@
 import { ProviderDriverKind, ProviderInstanceId } from "@t3tools/contracts";
 import { expect, it } from "vite-plus/test";
-import { page } from "vite-plus/test/browser";
 import { render } from "../../../test/render";
 import { deriveProviderInstanceEntries } from "../../providerInstances";
 import { ModelCompanion, ModelFace } from "./ModelCompanion";
@@ -46,6 +45,14 @@ it("stops the working animation when approval is needed", async () => {
   if (!pupil) throw new Error("Missing companion eyes");
   expect(getComputedStyle(pupil).animationName).toBe("model-companion-look");
   await screen.rerender(
+    <ModelCompanion provider={provider} model="claude-opus" state="thinking" />,
+  );
+  await expect.element(screen.getByText("Thinking", { exact: true })).toBeVisible();
+  expect(screen.container.querySelector(".model-companion-working")).toBeNull();
+  const thinkingPupil = screen.container.querySelector("[data-companion-pupil]");
+  if (!thinkingPupil) throw new Error("Missing thinking eyes");
+  expect(getComputedStyle(thinkingPupil).animationName).toBe("model-companion-look");
+  await screen.rerender(
     <ModelCompanion provider={provider} model="claude-opus" state="approval" />,
   );
   await expect.element(screen.getByText("Waiting for approval", { exact: true })).toBeVisible();
@@ -60,8 +67,9 @@ it("stops the working animation when approval is needed", async () => {
   expect(getComputedStyle(idlePupil).animationName).toBe("none");
 });
 
-it("persists still/off choices across the companion and sidebar faces, and can restore them", async () => {
+it("automatically animates only the active companion, even with an old off preference", async () => {
   using _preferences = facePreferences();
+  localStorage.setItem("agent-studio:model-faces", '"off"');
   if (!provider) throw new Error("Missing fixture");
   await using screen = await render(
     <>
@@ -69,16 +77,9 @@ it("persists still/off choices across the companion and sidebar faces, and can r
       <ModelFace model="gpt-sol" driver="codex" />
     </>,
   );
-  await screen.getByRole("combobox", { name: "Model faces" }).click();
-  await page.getByRole("option", { name: "Still", exact: true }).click();
-  expect(screen.container.querySelector(".model-companion-working")).toBeNull();
-  expect(screen.container.querySelectorAll("[data-model-face]")).toHaveLength(2);
-  await screen.getByRole("combobox", { name: "Model faces" }).click();
-  await page.getByRole("option", { name: "Off", exact: true }).click();
-  expect(screen.container.querySelectorAll("[data-model-face]")).toHaveLength(0);
-  expect(localStorage.getItem("agent-studio:model-faces")).toBe('"off"');
-  await screen.getByRole("combobox", { name: "Model faces" }).click();
-  await page.getByRole("option", { name: "Animated", exact: true }).click();
   expect(screen.container.querySelectorAll("[data-model-face]")).toHaveLength(2);
   expect(screen.container.querySelectorAll(".model-companion-working")).toHaveLength(1);
+  expect(screen.container.querySelector('[role="combobox"]')).toBeNull();
+  await screen.rerender(<ModelCompanion provider={provider} model="claude-opus" state="idle" />);
+  expect(screen.container.querySelector(".model-companion-working")).toBeNull();
 });

@@ -69,6 +69,7 @@ it("keeps each account's identity and usage separate, marks old data, and refres
         account("First", 20),
         account("Second", 85),
         account("Third"),
+        { ...account("devReplay"), driver: ProviderDriverKind.make("acpRegistry") },
       ])}
       activeInstanceId="Second"
     />,
@@ -77,6 +78,7 @@ it("keeps each account's identity and usage separate, marks old data, and refres
   const second = screen.container.querySelector('[data-account-instance="Second"]');
   const third = screen.container.querySelector('[data-account-instance="Third"]');
   expect(screen.container.textContent).not.toContain("@example.com");
+  expect(screen.container.querySelector('[data-account-instance="devReplay"]')).toBeNull();
   expect(first?.querySelector('[role="meter"]')?.getAttribute("aria-valuenow")).toBe("20");
   expect(second?.querySelector('[role="meter"]')?.getAttribute("aria-valuenow")).toBe("85");
   expect(second?.textContent).toContain("In this chat");
@@ -84,7 +86,8 @@ it("keeps each account's identity and usage separate, marks old data, and refres
   expect(third?.textContent).toContain("Usage unavailable");
   expect(third?.querySelector('[role="meter"]')).toBeNull();
   expect(commands.refresh).not.toHaveBeenCalled();
-  await screen.getByRole("button", { name: "Refresh usage" }).click();
+  await screen.getByRole("button", { name: "Manage accounts" }).click();
+  await page.getByRole("button", { name: "Refresh usage" }).click();
   expect(commands.refresh).toHaveBeenCalledExactlyOnceWith({ environmentId: "test", input: {} });
 });
 

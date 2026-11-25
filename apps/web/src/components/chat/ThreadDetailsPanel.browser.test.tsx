@@ -247,6 +247,7 @@ it("offers no git controls in a No project thread, but shows its linked pull req
     pullRequests: [linkedPullRequest],
   });
   await using _screen = await render(<Panel fixture={fixture} />);
+  await page.getByTestId("workspace-details-toggle").click();
   await expect.element(page.getByText("#27513")).toBeVisible();
   await expect
     .element(page.getByRole("button", { name: "Initialize Git" }))
@@ -256,6 +257,7 @@ it("offers no git controls in a No project thread, but shows its linked pull req
 it("shows Current checkout where no worktree can come from, even when New worktree is the default", async () => {
   using fixture = setup({ workspaceRoot: SCRATCH_ROOT, folder: SCRATCH_ROOT });
   await using _screen = await render(<Panel fixture={fixture} draftEnvMode="worktree" />);
+  await page.getByTestId("workspace-details-toggle").click();
   await expect.element(page.getByLabelText("Run context: Current checkout")).toBeVisible();
   await expect.element(page.getByRole("button", { name: /Run context/ })).not.toBeInTheDocument();
 });
@@ -265,6 +267,7 @@ it("offers only machines where no worktree can come from and several machines ex
   await using _screen = await render(
     <Panel fixture={fixture} draftEnvMode="worktree" onMachines />,
   );
+  await page.getByTestId("workspace-details-toggle").click();
   await page.getByRole("button", { name: "Run context: This Mac, Current checkout" }).click();
   await expect.element(page.getByText("Run on")).toBeVisible();
   await expect.element(page.getByText("New worktree")).not.toBeInTheDocument();
@@ -277,6 +280,7 @@ it("shows a linked pull request in a folder that is not a git repository", async
     pullRequests: [linkedPullRequest],
   });
   await using _screen = await render(<Panel fixture={fixture} />);
+  await page.getByTestId("workspace-details-toggle").click();
   await expect.element(page.getByRole("region", { name: "Workspace" })).toBeVisible();
   await expect.element(page.getByText("#27513")).toBeVisible();
   await expect.element(page.getByRole("button", { name: "Initialize Git" })).toBeVisible();
@@ -289,6 +293,7 @@ it("offers no Initialize Git before the server config says where No project live
     configLoaded: false,
   });
   await using _screen = await render(<Panel fixture={fixture} />);
+  await page.getByTestId("workspace-details-toggle").click();
   await expect.element(page.getByRole("region", { name: "Workspace" })).toBeVisible();
   await expect
     .element(page.getByRole("button", { name: "Initialize Git" }))
@@ -302,6 +307,7 @@ it("lists the t3.json actions on disk when the actions menu opens again after th
   t3File.disk = t3Json("Dev 4100");
   t3File.cached = t3File.disk;
   await using _screen = await render(<Panel fixture={fixture} withScripts />);
+  await page.getByTestId("workspace-details-toggle").click();
 
   const chooser = page.getByRole("button", { name: "Choose project action" });
   await chooser.click();

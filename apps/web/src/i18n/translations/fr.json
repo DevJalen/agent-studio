@@ -12984,20 +12984,13 @@
   "7c5e9b18111ea064": "Fork non officiel basé sur T3 Code. Sans affiliation avec T3 Tools.",
   "59ea8b88c155fb5c": "{provider} a besoin de votre autorisation",
   "ba0b04d5f75164ca": "Examiner la demande",
-  "a56b86a6645a15ee": "Images des messages chargés. Cliquez pour les voir.",
-  "0172fa00dd07ee4b": "Les images partagées dans ce chat apparaîtront ici.",
   "9d2755294cdf0aa0": "Images du chat",
   "4e23b9f41bdee766": "S’applique à votre prochain message. Arrêtez l’exécution en cours et envoyez à nouveau pour modifier ses autorisations.",
   "0b45ef11de2027ca": "Approve once",
-  "76d79649d137a87e": "Animé",
-  "4c554a8351cb3a88": "Fixe",
   "cdfde8588699b522": "En attente de votre réponse",
   "2d9cedd96cb8d693": "Prêt quand vous voulez",
   "ed60dbfb620f066b": "Compagnon du modèle",
-  "72529f0a4c992512": "Visages des modèles",
-  "7747c385ab04b88d": "Animation locale. Aucun jeton ni requête au modèle.",
   "d36507c4f56f5895": "Comptes et utilisation",
-  "d6b5c4d96562bdd5": "Dossiers de projets",
   "3b3ec2ddc2d4b3f9": "Gérer les comptes",
   "b36fb4e03f815504": "Détails d’utilisation",
   "4dd6d20188c210e0": "Dans ce chat",
@@ -13008,5 +13001,6 @@
   "8baf8bea22ea7642": "Autorisation requise",
   "1a357fa864ed1efc": "L’agent est en pause jusqu’à ce que vous choisissiez une action.",
   "c346c3b02750992f": "Démarrer une discussion parallèle",
-  "bdbc3800fcc2daab": "Progression"
+  "bdbc3800fcc2daab": "Progression",
+  "a882288fa121f633": "Principal"
 }

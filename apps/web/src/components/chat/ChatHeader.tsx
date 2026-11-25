@@ -12,7 +12,7 @@ import {
   squashAtomCommandFailure,
 } from "@t3tools/client-runtime/state/runtime";
 import { T, useGT, Var } from "gt-react";
-import { ChevronDownIcon, GitBranchIcon } from "lucide-react";
+import { ChevronDownIcon } from "lucide-react";
 import {
   memo,
   useEffect,
@@ -22,7 +22,6 @@ import {
   type MouseEvent as ReactMouseEvent,
 } from "react";
 import { isTrailingDoubleClick } from "../Sidebar.logic";
-import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { MiddleTruncate } from "../ui/middle-truncate";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
@@ -50,7 +49,6 @@ import { AccountIdentity } from "./AccountIdentity";
 import type { ProviderInstanceEntry } from "../../providerInstances";
 
 interface ChatHeaderProps {
-  onBranch?: (() => void) | undefined;
   provider?: ProviderInstanceEntry | null | undefined;
   activeThreadEnvironmentId: EnvironmentId;
   activeThreadId: ThreadId;
@@ -78,7 +76,6 @@ function resolveRenameCommit(input: {
 
 export const ChatHeader = memo(function ChatHeader({
   provider,
-  onBranch,
   activeThreadEnvironmentId,
   activeThreadId,
   activeThreadTitle,
@@ -420,17 +417,6 @@ export const ChatHeader = memo(function ChatHeader({
           ) : null}
         </WorkspaceBreadcrumbItem>
       </WorkspaceBreadcrumb>
-      {onBranch ? (
-        <Button
-          variant="outline"
-          size="compact"
-          onClick={onBranch}
-          aria-label={gt("Start a side chat")}
-        >
-          <GitBranchIcon className="size-3.5" />
-          {gt("Branch")}
-        </Button>
-      ) : null}
       {provider ? <AccountIdentity provider={provider} /> : null}
       {isServerThread ? <GuestShareIndicator threadRef={activeThreadRef} /> : null}
     </div>
