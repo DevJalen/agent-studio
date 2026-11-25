@@ -13,10 +13,12 @@ if errorlevel 1 (
 )
 echo.
 echo Agent Studio
-echo 1. Open Agent Studio
+echo 1. Open Agent Studio in a browser
 echo 2. Connect Claude Account 1
 echo 3. Connect Claude Account 2
-choice /C 123 /N /M "Choose 1, 2 or 3: "
+echo 4. Open Agent Studio desktop window
+choice /C 1234 /N /M "Choose 1, 2, 3 or 4: "
+if errorlevel 4 goto desktop
 if errorlevel 3 goto claude2
 if errorlevel 2 goto claude1
 vp run studio
@@ -26,5 +28,8 @@ vp run studio --login-claude-1
 goto done
 :claude2
 vp run studio --login-claude-2
+goto done
+:desktop
+vp run studio:desktop
 :done
 if errorlevel 1 pause

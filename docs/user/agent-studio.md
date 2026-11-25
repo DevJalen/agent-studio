@@ -12,8 +12,11 @@ vp install --frozen-lockfile
 vp run studio
 ```
 
-On Windows, `Start-Agent-Studio.cmd` starts the same launcher. Open the pairing URL printed in its
-terminal. Keep that terminal open while using the app. For Electron, run `vp run studio:desktop`.
+On Windows, `Start-Agent-Studio.cmd` offers a browser view, a desktop window, and account sign-in.
+For the browser view, open the pairing URL printed in its terminal. Keep the launcher's terminal
+open while using either view. Close the running launcher before switching between browser and
+desktop modes; both use the same chats and settings. Neither mode needs the Claude or Codex
+desktop app open. To start the desktop window from a terminal, run `vp run studio:desktop`.
 The desktop development shell needs Electron's additional runtime dependencies; this fork does
 not yet ship a signed installer.
 
