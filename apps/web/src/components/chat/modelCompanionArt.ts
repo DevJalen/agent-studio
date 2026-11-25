@@ -1,174 +1,70 @@
 const characters = {
-  opus: [
-    "        .  *  .",
-    "         \\ | /",
-    "       .--===--.",
-    "      / {e}     {e} \\",
-    "      |   ___   |",
-    "      |  \\___/  |",
-    "   .--'--------- '--.",
-    "  /  /|   {tag}   |\\  \\",
-    " {l}__/ |   <>    | \\__{r}",
-    " (__) |_________| (__)",
-    "       / /   \\ \\",
-    "      /_/     \\_\\",
-    "     [___]   [___]",
-  ],
-  sonnet: [
-    "       __________",
-    "      /__________\\",
-    "     /|  _____  |\\",
-    "    [ | {e}   {e} | ]",
-    "    [ |  \\_/  | ]",
-    "     \\|_______|/",
-    "   {l}---| {tag} |---{r}",
-    "   |   |  [#] |   |",
-    "  (_)  |______|  (_)",
-    "        | || |",
-    "        | || |",
-    "      __| || |__",
-    "     [____][____]",
-  ],
-  fable: [
-    "          /\\",
-    "         / *\\",
-    "        / *  \\",
-    "     __/______\\__",
-    "       | {e}  {e} |",
-    "       |  ~   |",
-    "      /'------'\\",
-    "   {l}/  . {tag} . \\{r}",
-    "   /   /|___|\\   \\",
-    "  / *  \\|___|/ * \\",
-    " /   .       .   \\",
-    " '----._____.----'",
-    "       /_   _\\",
-  ],
-  haiku: [
-    "       /\\    /\\",
-    "      /  \\__/  \\",
-    "     /          \\",
-    "     | {e}      {e} |",
-    "     |    v     |",
-    "      \\  ---  /",
-    "       '------'",
-    "     {l}/  {tag} \\{r}",
-    "    (_|   :   |_)",
-    "      |_______|",
-    "      / /   \\ \\",
-    "     (_/     \\_)",
-    "       . . . .",
-  ],
-  sol: [
-    "     \\   |   /",
-    "      \\  |  /",
-    "   --- .----. ---",
-    "     / |{e}  {e}| \\",
-    "       | -- |",
-    "       '----'",
-    "    {l}==| {tag}|=={r}",
-    "    |  |[::]|  |",
-    "   [_] |____| [_]",
-    "        /||\\",
-    "       / || \\",
-    "      /_ || _\\",
-    "     [__]  [__]",
-  ],
-  astra: [
-    "         . + .",
-    "        --(*)--",
-    "           |",
-    "       .-------.",
-    "    .-(  {e}   {e}  )-.",
-    "   (   '---v---'   )",
-    "    '---._____.---'",
-    "     {l}/|  {tag} |\\{r}",
-    "    (_ |  /\\  | _)",
-    "       | /__\\ |",
-    "       '-------'",
-    "        /| | |\\",
-    "       ' ' ' ' '",
-  ],
-  terra: [
-    "         _/\\_",
-    "        /    \\",
-    "        \\_  _/",
-    "          ||",
-    "     .----------.",
-    "     |  {e}    {e}  |",
-    "     |   \\__/   |",
-    "  {l}--'----------'--{r}",
-    "  |  /|   {tag}   |  |",
-    " [_]/ |   /\\    | [_]",
-    "      |__/_ \\___|",
-    "       |  |  |",
-    "     __|  |  |__",
-    "    [____][_____]",
-  ],
-  luna: [
-    "          .--.",
-    "         / .-'",
-    "         \\ '-.",
-    "      /\\  '--' /\\",
-    "     /  '------'  \\",
-    "     | {e}      {e} |",
-    "      \\  =v=   /",
-    "       '------'",
-    "     {l}/  {tag} \\{r}    _",
-    "    (_|  ( )  |_)  / )",
-    "      |_______|___/ /",
-    "      / /   \\ \\---'",
-    "     (_/     \\_)",
-  ],
-  robot: [
-    "         --+--",
-    "           |",
-    "      .---------.",
-    "      | {e}     {e} |",
-    "      |   [=]   |",
-    "      '---------'",
-    "   {l}---|  {tag} |---{r}",
-    "   |   |  {#} |   |",
-    "  [_]  |______|  [_]",
-    "        | || |",
-    "        | || |",
-    "      __| || |__",
-    "     [____][____]",
-  ],
+  opus: {
+    headwear:
+      "  *       *       *  \n  |\\     /|\\     /|  \n  | '--' | '--' |  \n  '==============='  ",
+    mouth: "\\___/",
+    emblem: "<>",
+  },
+  sonnet: {
+    headwear: "    ___________    \n  .'  _______  '.  \n /  .'       '.  \\ \n[__]           [__]",
+    mouth: "v",
+    emblem: "[#]",
+  },
+  fable: {
+    headwear: "        /\\        \n       / *\\       \n      /  * \\      \n  ___/______\\___  ",
+    mouth: "~",
+    emblem: "*",
+  },
+  haiku: {
+    headwear:
+      "  /\\           /\\  \n /  \\         /  \\ \n/    '-------'    \\\n                   ",
+    mouth: "=v=",
+    emblem: ":",
+  },
+  sol: {
+    headwear: "   \\    |    /    \n    \\   |   /     \n --   .-----.   -- \n    /         \\   ",
+    mouth: "\\_o_/",
+    emblem: "[+]",
+  },
+  astra: {
+    headwear:
+      "        . + .       \n       --(*)--      \n          |         \n   .---=======---.  ",
+    mouth: "v",
+    emblem: "/\\",
+  },
+  terra: {
+    headwear:
+      "         _/\\_      \n     ___/    /      \n     \\___  /       \n         ||         ",
+    mouth: "\\__/",
+    emblem: "/Y\\",
+  },
+  luna: {
+    headwear:
+      "        .---.       \n       / .--'       \n       \\ '--.       \n  /\\    '---'   /\\ ",
+    mouth: "=w=",
+    emblem: "( )",
+  },
+  robot: {
+    headwear:
+      "         [*]        \n          |         \n      .-------.     \n      '-------'     ",
+    mouth: "[=]",
+    emblem: "{#}",
+  },
 } as const;
 
-export function modelCharacterArt(
-  model: string,
-  label: string,
-  state: "working" | "approval" | "input" | "error" | "idle",
-  frame: 0 | 1,
-): string {
-  const family = Object.keys(characters).find((key) =>
+export function modelCharacterPortrait(model: string, label: string) {
+  const family = (Object.keys(characters).find((key) =>
     `${model} ${label}`.toLowerCase().includes(key),
-  );
-  const lines = characters[(family ?? "robot") as keyof typeof characters];
-  const version = /\d+(?:[.-]\d+)?/.exec(model)?.[0]?.replace("-", ".");
+  ) ?? "robot") as keyof typeof characters;
   const fingerprint = Array.from(model).reduce(
     (hash, char) => (hash * 31 + char.charCodeAt(0)) >>> 0,
     0,
   );
-  const tag = (version ?? fingerprint.toString(16)).slice(0, 3).padStart(3, " ");
-  const waiting = state === "approval" || state === "input";
-  const eyes = waiting
-    ? "?"
-    : state === "error"
-      ? "!"
-      : frame === 1
-        ? "-"
-        : ["o", "O", "^", "+"][fingerprint % 4]!;
-  return lines
-    .map((line) =>
-      line
-        .replaceAll("{e}", eyes)
-        .replaceAll("{tag}", tag)
-        .replaceAll("{l}", frame === 1 ? "\\" : "/")
-        .replaceAll("{r}", frame === 1 ? "/" : "\\")
-        .replaceAll("{#}", ["[#]", "[+]", "[=]", "[~]"][fingerprint % 4]!),
-    )
-    .join("\n");
+  const version = /\d+(?:[.-]\d+)?/.exec(model)?.[0]?.replace("-", ".");
+  return {
+    ...characters[family],
+    family,
+    variant: fingerprint % 3,
+    tag: version ?? fingerprint.toString(16).slice(0, 3),
+  };
 }

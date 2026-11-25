@@ -2,9 +2,10 @@ import * as Schema from "effect/Schema";
 import { useGT } from "gt-react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { cn } from "../../lib/utils";
+import { observeVisibleAnimation } from "../../lib/visibleAnimation";
 import type { ProviderInstanceEntry } from "../../providerInstances";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../ui/select";
-import { modelCharacterArt } from "./modelCompanionArt";
+import { modelCharacterPortrait } from "./modelCompanionArt";
 
 const FaceMode = Schema.Literals(["animated", "still", "off"]);
 type FaceMode = typeof FaceMode.Type;
@@ -43,6 +44,9 @@ export function ModelFace({
   label?: string;
 }) {
   const [mode] = useLocalStorage<FaceMode, FaceMode>(FACE_MODE_KEY, "animated", FaceMode);
+  const portrait = modelCharacterPortrait(model, label);
+  const expression =
+    state === "approval" || state === "input" ? "?" : state === "error" ? "!" : null;
   if (mode === "off") return null;
   if (large)
     return (
@@ -50,19 +54,57 @@ export function ModelFace({
         aria-hidden
         data-model-face
         data-state={state}
+        data-character={portrait.family}
+        ref={state === "working" && mode === "animated" ? observeVisibleAnimation : undefined}
         className={cn(
-          "grid select-none py-2 text-left font-mono text-xs leading-4",
+          "inline-flex w-56 select-none flex-col items-center py-3 font-mono",
           state === "working" && mode === "animated" && "model-companion-working",
         )}
       >
-        <span className="col-start-1 row-start-1 whitespace-pre" data-companion-frame="rest">
-          {modelCharacterArt(model, label, state, 0)}
+        <span data-companion-head className="flex origin-bottom flex-col items-center">
+          <span className="h-16 whitespace-pre text-center text-sm leading-4">
+            {portrait.headwear}
+          </span>
+          <span className="relative block h-28 w-52">
+            <span className="absolute inset-0 whitespace-pre text-center text-base leading-5">
+              {
+                " .-----------------. \n/                   \\\n|                   |\n\\                   /\n '-----------------' "
+              }
+            </span>
+            <span className="absolute inset-x-10 top-5 flex justify-between">
+              {["left", "right"].map((eye) => (
+                <span
+                  key={eye}
+                  data-companion-eye
+                  className={cn(
+                    "flex h-8 w-9 items-center justify-center bg-foreground text-background",
+                    portrait.variant === 0
+                      ? "rounded-full"
+                      : portrait.variant === 1
+                        ? "rounded-lg"
+                        : "rounded-sm",
+                  )}
+                >
+                  {expression ? (
+                    <span className="text-2xl font-bold">{expression}</span>
+                  ) : (
+                    <span
+                      data-companion-pupil
+                      className="relative block h-5 w-3 rounded-full bg-background"
+                    >
+                      <span className="absolute left-0.5 top-0.5 size-1 rounded-full bg-foreground" />
+                    </span>
+                  )}
+                </span>
+              ))}
+            </span>
+            <span className="absolute inset-x-0 top-16 text-center text-lg font-bold">
+              {expression ? (state === "error" ? "/_\\" : "o") : portrait.mouth}
+            </span>
+          </span>
         </span>
-        <span
-          className="col-start-1 row-start-1 whitespace-pre opacity-0"
-          data-companion-frame="work"
-        >
-          {modelCharacterArt(model, label, state, 1)}
+        <span className="-mt-2 whitespace-pre text-center text-xs leading-4">
+          {` /| ${portrait.tag} |\\\n(_| ${portrait.emblem} |_)\n  /_   _\\`}
         </span>
       </span>
     );

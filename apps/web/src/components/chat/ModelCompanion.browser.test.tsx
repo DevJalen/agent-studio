@@ -4,6 +4,7 @@ import { page } from "vite-plus/test/browser";
 import { render } from "../../../test/render";
 import { deriveProviderInstanceEntries } from "../../providerInstances";
 import { ModelCompanion, ModelFace } from "./ModelCompanion";
+import "~/index.css";
 
 const [provider] = deriveProviderInstanceEntries([
   {
@@ -41,14 +42,22 @@ it("stops the working animation when approval is needed", async () => {
   );
   await expect.element(screen.getByText("Working", { exact: true })).toBeVisible();
   expect(screen.container.querySelector(".model-companion-working")).not.toBeNull();
+  const pupil = screen.container.querySelector("[data-companion-pupil]");
+  if (!pupil) throw new Error("Missing companion eyes");
+  expect(getComputedStyle(pupil).animationName).toBe("model-companion-look");
   await screen.rerender(
     <ModelCompanion provider={provider} model="claude-opus" state="approval" />,
   );
   await expect.element(screen.getByText("Waiting for approval", { exact: true })).toBeVisible();
   expect(screen.container.querySelector(".model-companion-working")).toBeNull();
-  expect(screen.container.querySelector('[data-companion-frame="rest"]')?.textContent).toContain(
-    "?",
-  );
+  expect(screen.container.querySelector("[data-companion-eye]")?.textContent).toBe("?");
+  const head = screen.container.querySelector("[data-companion-head]");
+  if (!head) throw new Error("Missing companion head");
+  expect(getComputedStyle(head).animationName).toBe("none");
+  await screen.rerender(<ModelCompanion provider={provider} model="claude-opus" state="idle" />);
+  const idlePupil = screen.container.querySelector("[data-companion-pupil]");
+  if (!idlePupil) throw new Error("Missing idle eyes");
+  expect(getComputedStyle(idlePupil).animationName).toBe("none");
 });
 
 it("persists still/off choices across the companion and sidebar faces, and can restore them", async () => {

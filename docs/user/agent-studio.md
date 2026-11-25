@@ -69,10 +69,12 @@ Available reset credits appear under their account, including model-specific cre
 or **Use reset** and confirm the named credit to redeem it. Opening the controls never spends a credit.
 
 Open the chat's details panel to see its model companion below the workspace controls. It shows the
-current account, model, and whether work is running or waiting for you. Each model has its own full-body
-ASCII character; model versions have different details. Choose **Animated**, **Still**,
+current account, model, and whether work is running or waiting for you. Each model has its own
+ASCII-style companion with a large face, distinct headgear, and model-version details. While working,
+its eyes look around and blink, and its head moves. Idle and waiting companions stay still.
+Choose **Animated**, **Still**,
 or **Off** under **Model faces**. Faces and their animations run locally without model requests or
-tokens; reduced-motion preferences disable the animation. Sidebar faces remain still.
+tokens; reduced-motion preferences disable the animation, and hidden companions pause. Sidebar faces remain still.
 
 ## Images and game projects
 
