@@ -50,83 +50,94 @@ export const TimelinePendingApprovalRow = memo(function TimelinePendingApprovalR
   const presentation = APPROVAL_PRESENTATION[approval.requestKind];
   const canRespond = approval.responseCapability === "live";
   return (
-    <WorkLogRow
-      role="group"
-      aria-label={m(presentation.label)}
-      data-v2-item-type="approval_request"
-      wrapLabel
-      icon={
-        <ToolActivityIconView
-          icon={undefined}
-          fallbackName={presentation.icon}
-          className="block size-4 shrink-0 stroke-2 text-icon-muted"
-          muted
-        />
-      }
-      label={
-        <code
-          aria-label={m(presentation.detailLabel)}
-          className="block max-h-40 min-w-0 overflow-auto whitespace-pre-wrap font-mono text-xs leading-5 text-foreground select-text! wrap-anywhere [scrollbar-width:thin] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
-          data-approval-detail="complete"
-          tabIndex={0}
-        >
-          {approval.detail || m(presentation.label)}
-        </code>
-      }
-    >
-      <div className="ms-7.5 flex min-w-0 flex-col gap-1 pb-1 text-xs">
-        {approval.appName ? (
-          <span className="text-muted-foreground wrap-anywhere">{approval.appName}</span>
-        ) : null}
-        {approval.reason ? (
-          <span className="text-muted-foreground select-text wrap-anywhere">{approval.reason}</span>
-        ) : null}
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-          {canRespond ? (
-            <>
-              <span className="inline-flex items-center gap-1 text-warning">
-                <ShieldIcon aria-hidden className="size-3 shrink-0" />
-                <T>Waiting for approval</T>
-              </span>
-              {onRespondToApproval ? (
-                <>
-                  <span aria-hidden className="text-muted-foreground">
-                    ·
-                  </span>
-                  <ComposerPendingApprovalActions
-                    presentation="inline"
-                    requestId={approval.requestId}
-                    disabled={!canOperateThread}
-                    isResponding={respondingRequestIds.includes(approval.requestId)}
-                    canRespond={canRespond}
-                    options={approval.options}
-                    onRespondToApproval={onRespondToApproval}
-                  />
-                </>
-              ) : null}
-            </>
-          ) : (
-            <span className="text-warning">
-              <T>Provider process is gone. Interrupt or restart the run to respond.</T>
-            </span>
-          )}
-          {approval.fullAccessOverride ? (
-            <Popover>
-              <PopoverTrigger openOnHover render={<InlineButton tone="muted" />}>
-                {m(FULL_ACCESS_OVERRIDE_QUESTION)}
-              </PopoverTrigger>
-              <PopoverPopup
-                aria-label={m(FULL_ACCESS_OVERRIDE_QUESTION)}
-                tooltipStyle
-                side="top"
-                className="max-w-[min(22rem,calc(100vw-2rem))] whitespace-normal"
-              >
-                {fullAccessOverrideExplanation(approval.fullAccessOverride, m)}
-              </PopoverPopup>
-            </Popover>
-          ) : null}
-        </div>
+    <div className="my-3 rounded-xl border border-warning/50 bg-warning-surface p-4 shadow-sm">
+      <div
+        className="mb-3 flex items-center gap-2 text-base font-semibold text-warning-foreground"
+        role="status"
+      >
+        <ShieldIcon aria-hidden className="size-5 shrink-0" />
+        <T>Approval required</T>
       </div>
-    </WorkLogRow>
+      <p className="mb-3 text-sm text-foreground">
+        <T>The agent is paused until you choose an action.</T>
+      </p>
+      <WorkLogRow
+        role="group"
+        aria-label={m(presentation.label)}
+        data-v2-item-type="approval_request"
+        wrapLabel
+        icon={
+          <ToolActivityIconView
+            icon={undefined}
+            fallbackName={presentation.icon}
+            className="block size-4 shrink-0 stroke-2 text-icon-muted"
+            muted
+          />
+        }
+        label={
+          <code
+            aria-label={m(presentation.detailLabel)}
+            className="block max-h-40 min-w-0 overflow-auto whitespace-pre-wrap font-mono text-xs leading-5 text-foreground select-text! wrap-anywhere [scrollbar-width:thin] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
+            data-approval-detail="complete"
+            tabIndex={0}
+          >
+            {approval.detail || m(presentation.label)}
+          </code>
+        }
+      >
+        <div className="mt-3 flex min-w-0 flex-col gap-3 text-sm">
+          {approval.appName ? (
+            <span className="text-muted-foreground wrap-anywhere">{approval.appName}</span>
+          ) : null}
+          {approval.reason ? (
+            <span className="text-muted-foreground select-text wrap-anywhere">
+              {approval.reason}
+            </span>
+          ) : null}
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            {canRespond ? (
+              <>
+                <span className="inline-flex items-center gap-1 text-warning">
+                  <ShieldIcon aria-hidden className="size-3 shrink-0" />
+                  <T>Waiting for approval</T>
+                </span>
+                {onRespondToApproval ? (
+                  <>
+                    <ComposerPendingApprovalActions
+                      presentation="card"
+                      requestId={approval.requestId}
+                      disabled={!canOperateThread}
+                      isResponding={respondingRequestIds.includes(approval.requestId)}
+                      canRespond={canRespond}
+                      options={approval.options}
+                      onRespondToApproval={onRespondToApproval}
+                    />
+                  </>
+                ) : null}
+              </>
+            ) : (
+              <span className="text-warning">
+                <T>Provider process is gone. Interrupt or restart the run to respond.</T>
+              </span>
+            )}
+            {approval.fullAccessOverride ? (
+              <Popover>
+                <PopoverTrigger openOnHover render={<InlineButton tone="muted" />}>
+                  {m(FULL_ACCESS_OVERRIDE_QUESTION)}
+                </PopoverTrigger>
+                <PopoverPopup
+                  aria-label={m(FULL_ACCESS_OVERRIDE_QUESTION)}
+                  tooltipStyle
+                  side="top"
+                  className="max-w-[min(22rem,calc(100vw-2rem))] whitespace-normal"
+                >
+                  {fullAccessOverrideExplanation(approval.fullAccessOverride, m)}
+                </PopoverPopup>
+              </Popover>
+            ) : null}
+          </div>
+        </div>
+      </WorkLogRow>
+    </div>
   );
 });

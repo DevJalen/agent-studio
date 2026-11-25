@@ -317,6 +317,10 @@ import { ProviderSubagentBar } from "./chat/ProviderSubagentBar";
 import { getTriggerDisplayModelName } from "./chat/providerIconUtils";
 import { resolveScrollToEndClearance } from "./composerFooterLayout";
 import { ChatHeader } from "./chat/ChatHeader";
+import { ModelCompanion } from "./chat/ModelCompanion";
+import { StudioAccountBar } from "./chat/StudioAccountBar";
+import { ChatImageShelf } from "./chat/ChatImageShelf";
+import { Button } from "./ui/button";
 import { useSideChat } from "./chat/useSideChat";
 import { sideThreadComposer, sideThreadKindOf } from "@t3tools/client-runtime/side-thread";
 import { useOpenSurfaceInMainView } from "../hooks/useOpenSurfaceInMainView";
@@ -1592,6 +1596,13 @@ export default function ChatView(props: ChatViewProps) {
     isCompacting,
     runlessWorkStartedAt,
   });
+  const companionProvider =
+    (isWorking
+      ? providerInstanceEntries.find(
+          (entry) => entry.instanceId === activeRuntime?.providerInstanceId,
+        )
+      : undefined) ?? selectedProviderEntry;
+  const companionModel = (isWorking ? activeThread?.modelSelection.model : activeUsageModel) ?? "";
   const activeContextWindow = deriveLatestContextWindowSnapshot(
     serverVisibleTurnItems ?? [],
     activeThreadLiveTokenUsage,
@@ -3613,6 +3624,30 @@ export default function ChatView(props: ChatViewProps) {
           </header>
         )}
 
+        {!embedded ? (
+          <StudioAccountBar
+            providers={providerInstanceEntries}
+            activeInstanceId={companionProvider?.instanceId}
+            environmentId={activeThread.environmentId}
+          />
+        ) : null}
+
+        {pendingApprovals.length > 0 ? (
+          <div
+            role="status"
+            className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-warning/40 bg-warning-surface px-5 py-3"
+          >
+            <span className="text-sm font-semibold text-warning-foreground">
+              {gt("{provider} needs your approval", {
+                provider: companionProvider?.displayName ?? gt("Agent"),
+              })}
+            </span>
+            <Button size="sm" onClick={() => scrollToEnd(true)}>
+              {gt("Review approval")}
+            </Button>
+          </div>
+        ) : null}
+
         <div className="relative flex min-h-0 min-w-0 flex-1">
           <ThreadFindCanvas
             findOptions={{
@@ -4130,6 +4165,34 @@ export default function ChatView(props: ChatViewProps) {
                 />
 
                 <ThreadDetailsPanel
+                  companion={
+                    <>
+                      {companionProvider ? (
+                        <ModelCompanion
+                          provider={companionProvider}
+                          model={companionModel}
+                          state={
+                            pendingApprovals.length > 0
+                              ? "approval"
+                              : pendingUserInputs.length > 0
+                                ? "input"
+                                : isWorking
+                                  ? "working"
+                                  : "idle"
+                          }
+                        />
+                      ) : null}
+                      {activeThreadRef ? (
+                        <ChatImageShelf
+                          key={activeThreadKey}
+                          messages={timelineMessages}
+                          threadRef={activeThreadRef}
+                          cwd={gitCwd ?? undefined}
+                          onImageExpand={onExpandTimelineImageStable}
+                        />
+                      ) : null}
+                    </>
+                  }
                   anchor={threadPanelPopoverAnchorRef}
                   handle={threadPanelPopoverHandle}
                   forceNewWorktree={multipleModelSelections !== null}

@@ -123,6 +123,12 @@ export function ComposerPermissionsSection(props: {
       <div className="font-medium text-muted-foreground text-xs">
         <T>Permissions</T>
       </div>
+      <p className="text-xs text-muted-foreground">
+        <T>
+          Applies to your next message. Stop the current run and send again to change its
+          permissions.
+        </T>
+      </p>
       <MenuPrimitive.RadioGroup
         aria-label={gt("Permissions")}
         value={props.runtimeMode}

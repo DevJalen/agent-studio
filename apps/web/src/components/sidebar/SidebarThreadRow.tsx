@@ -1,4 +1,5 @@
 import { useAtomMount, useAtomValue } from "@effect/atom-react";
+import { ModelFace } from "../chat/ModelCompanion";
 import { asLaunchingThread } from "@t3tools/client-runtime/state/thread-inbox";
 import { ThreadHoverCard, ThreadHoverCardPopup } from "../ThreadHoverCard";
 import { ThreadTerminalStatusButton } from "../ThreadStatusIndicators";
@@ -1137,6 +1138,19 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
       )}
       dir={textDirection(thread.title)}
     >
+      <ModelFace
+        model={thread.modelSelection.model}
+        driver={providerEntry?.driverKind ?? ""}
+        state={
+          status === "approval"
+            ? "approval"
+            : status === "input"
+              ? "input"
+              : status === "failed"
+                ? "error"
+                : "idle"
+        }
+      />
       {thread.title}
       {isRegeneratingTitle ? (
         <ActivityShimmerOverlay className="truncate">{thread.title}</ActivityShimmerOverlay>

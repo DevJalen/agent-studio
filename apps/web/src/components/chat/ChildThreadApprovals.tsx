@@ -24,7 +24,7 @@ function ChildApproval({ entry }: { entry: ChildThreadApproval }) {
   return (
     <section
       aria-label={gt("Approval from {title}", { title: entry.title })}
-      className="rounded-lg border border-border bg-background p-3 text-xs"
+      className="rounded-xl border border-warning/50 bg-warning-surface p-4 text-sm"
     >
       <p className="mb-2 font-medium">
         <T>
@@ -48,7 +48,7 @@ function ChildApproval({ entry }: { entry: ChildThreadApproval }) {
       ) : null}
       <div className="mt-2 flex flex-wrap gap-2">
         <ComposerPendingApprovalActions
-          presentation="inline"
+          presentation="card"
           requestId={approval.requestId}
           isResponding={responding}
           canRespond={approval.responseCapability === "live"}

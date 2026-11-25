@@ -2713,3 +2713,35 @@ code {
 .messages-timeline-scroll:focus-visible {
   outline: none;
 }
+@keyframes model-companion-rest {
+  0%,
+  86%,
+  100% {
+    opacity: 1;
+  }
+  87%,
+  93% {
+    opacity: 0;
+  }
+}
+
+@keyframes model-companion-work {
+  0%,
+  86%,
+  100% {
+    opacity: 0;
+  }
+  87%,
+  93% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .model-companion-working [data-companion-frame="rest"] {
+    animation: model-companion-rest 4s steps(1, end) infinite;
+  }
+  .model-companion-working [data-companion-frame="work"] {
+    animation: model-companion-work 4s steps(1, end) infinite;
+  }
+}

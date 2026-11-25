@@ -62,6 +62,18 @@ and quotas remain with Anthropic and OpenAI; adding an account does not merge al
 
 Setup is create-once. Relaunching preserves saved settings, account names, and provider choices.
 
+The account bar shows each account's name and reported usage limits, without displaying email addresses. Select **Usage details**
+for all limits, or refresh to request updated readings. Missing readings stay unavailable, and old
+readings are marked. **Project folders** switches between chat cards and collapsible project groups.
+Available reset credits appear under their account, including model-specific credits. Choose **Use**
+or **Use reset** and confirm the named credit to redeem it. Opening the controls never spends a credit.
+
+Open the chat's details panel to see its model companion below the workspace controls. It shows the
+current account, model, and whether work is running or waiting for you. Each model has its own full-body
+ASCII character; model versions have different details. Choose **Animated**, **Still**,
+or **Off** under **Model faces**. Faces and their animations run locally without model requests or
+tokens; reduced-motion preferences disable the animation. Sidebar faces remain still.
+
 ## Images and game projects
 
 T3's existing chat renders supported image attachments and Markdown image outputs, including its
@@ -69,6 +81,10 @@ zoomable image viewer. The Codex preset enables its native image-generation feat
 without changing your shared Codex configuration. Generation still requires a supporting model and
 account; the flag does not add an entitlement. See [Codex images](providers-codex.md#generate-images).
 Plugins in the official Codex desktop app are not automatically available to the standalone Codex CLI.
+
+Expand **Chat images** beneath the companion to browse image attachments and image links from loaded
+messages. The shelf shows up to 48 of each and opens the existing image viewer. It does not search
+other chats or generate new images.
 
 Add your game workspace as a project. Its existing `AGENTS.md`/`CLAUDE.md` and shared vault remain
 the source of game-specific instructions. Keep game work in that workspace; keep this public fork
